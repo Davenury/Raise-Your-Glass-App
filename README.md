@@ -5,8 +5,8 @@
 ## Table of Content
 * [What is it?](#what-is-it)
 * [Technologies](#technologies)
-* [Desired Features](#desired-features)
-* [Desired Database Structure](#desired-database-structure)
+* [TODO Features](#todo-features)
+* [Database Scheme](#database-scheme)
 
 ### What is it?
 Raise Your Glass is an android app that helps organizing parties.
@@ -20,7 +20,7 @@ Raise Your Glass is an android app that helps organizing parties.
 
 ---
 
-### Desired Features
+### TODO Features
 * Register and Login
 * List of drinks with ingredients and instruction
 * Creating events (public and private), where you can invite your friends in simple way
@@ -28,7 +28,7 @@ Raise Your Glass is an android app that helps organizing parties.
 
 ---
 
-### Desired Database Sturcutre
+### Database Scheme
 ---
 #### Collections:
   * Drinks
