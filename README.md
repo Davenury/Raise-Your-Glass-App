@@ -1,6 +1,6 @@
 # Raise Your Glass App
 
-![made-with-kotlin](https://img.shields.io/badge/Main%20language-Kotlin-orange) ![what-is-is](https://img.shields.io/badge/What%20is%20it-Android%20App-green) 
+![made-with-kotlin](https://img.shields.io/badge/Main%20language-Kotlin-orange) ![what-is-is](https://img.shields.io/badge/What%20is%20it-Android%20App-green) ![NSFW](https://img.shields.io/badge/NSFW-+18%20/%20+21:%20Alcohol-informational) ![not-finished](https://img.shields.io/badge/finished-NO-critical)
 
 ## Table of Content
 * [What is it?](#what-is-it)
@@ -12,3 +12,39 @@ Raise Your Glass is a mobile app that helps organizing parties.
 ### Technologies
 * Kotlin
 * Firebase
+
+### Desired Features
+* Register and Login
+* List of drinks with ingredients and instruction
+* Creating events (public and private), where you can invite your friends in simple way
+* Generating shopping list for events
+
+### Desired Database Sturcutre
+Collections:
+  * Drinks
+  * Favorites
+  * Events
+ 
+Fields in collections:
+  * Drinks:
+    * Name of Drink (String)
+    * type (String) - is it Shot, Long Drink, etc.
+    * Array of Ingredients (Ingredient type)
+    * Array of Steps (Step type / String)
+    
+  * Favorites:
+    * userID (String)
+    * Array of Favorite Drinks (drinkID)
+    
+  * Events:
+    * date (Date / Time)
+    * place (String)
+    * isPrivate (Boolean) - tells if event is private (only owner of this event can invite people to this event) or public (everyone can see this event)
+    * owner (userID)
+    * Array of objects: - tells which user ordered what type of alcohol
+      * userId
+      * ordered drinks and other alcohol related stuff (Array of drinkID)
+      * comments - other stuff related to the event (alergies, etc)
+    * "I'll participate" (Array of userID)
+    * "Invited" (Array of userID - only if the event is private)
+    
