@@ -12,16 +12,22 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        LoginActivity.context = applicationContext
+        Firebase.setContext(applicationContext)
 
-
+        btnRegister.setOnClickListener {
+            val email = etEmail.text.toString()
+            val password = etPassword.text.toString()
+            Firebase.registerWithEmailAndPassword(email, password)
+            checkLogged()
+        }
     }
 
-    companion object{
-        lateinit var context: Context
-
-        fun getApplicationContext(): Context{
-            return context
+    private fun checkLogged(){
+        if(Firebase.isUserLogged()){
+            tvLoggedIn.text = "Logged in"
+        }
+        else{
+            tvLoggedIn.text = "Not logged in"
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.raiseyourglass.firebase
 
+import android.content.Context
 import android.widget.Toast
 import com.example.raiseyourglass.activities.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -13,9 +14,7 @@ import java.lang.Exception
 
 object UpdateUserComponent {
 
-    val auth = FirebaseAuth.getInstance()
-
-    fun updateUserName(userName: String){
+    fun updateUserName(userName: String, context: Context, auth: FirebaseAuth){
         CoroutineScope(Dispatchers.IO).launch{
             try {
                 auth.currentUser?.let {
@@ -27,7 +26,7 @@ object UpdateUserComponent {
                 }
             } catch(e: Exception){
                 withContext(Dispatchers.Main){
-                    Toast.makeText(LoginActivity.getApplicationContext(), e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
