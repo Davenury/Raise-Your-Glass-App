@@ -5,13 +5,19 @@
 ## Table of Content
 * [What is it?](#what-is-it)
 * [Technologies](#technologies)
+* [Desired Features](#desired-features)
+* [Desired Database Structure](#desired-database-structure)
 
 ### What is it?
 Raise Your Glass is a mobile app that helps organizing parties.
 
+---
+
 ### Technologies
 * Kotlin
 * Firebase
+
+---
 
 ### Desired Features
 * Register and Login
@@ -19,23 +25,28 @@ Raise Your Glass is a mobile app that helps organizing parties.
 * Creating events (public and private), where you can invite your friends in simple way
 * Generating shopping list for events
 
+---
+
 ### Desired Database Sturcutre
-Collections:
+---
+#### Collections:
   * Drinks
   * Favorites
   * Events
+---
  
-Fields in collections:
+#### Fields in collections:
+
   * Drinks:
     * Name of Drink (String)
     * type (String) - is it Shot, Long Drink, etc.
     * Array of Ingredients (Ingredient type)
     * Array of Steps (Step type / String)
-    
+    ---
   * Favorites:
     * userID (String)
     * Array of Favorite Drinks (drinkID)
-    
+    ---
   * Events:
     * date (Date / Time)
     * place (String)
