@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "38743611558",
+    "firebase_url": "https://raise-your-glass.firebaseio.com",
+    "project_id": "raise-your-glass",
+    "storage_bucket": "raise-your-glass.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38743611558:android:5da94723f0fc8e12f3bc67",
+        "android_client_info": {
+          "package_name": "com.example.raiseyourglass"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38743611558-n3hdktrj88e4o8ruccn1qrvs5tiu3n85.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.raiseyourglass",
+            "certificate_hash": "899913275985fc40337c65c38971a0185654fc36"
+          }
+        },
+        {
+          "client_id": "38743611558-16rc1ujjtuibb4p9lt34hn2t59bbv4jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANJ2ZEuvjDGNz1cgYyRTCExi_40-BzmF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38743611558-16rc1ujjtuibb4p9lt34hn2t59bbv4jm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
