@@ -60,3 +60,5 @@ Raise Your Glass is an android app that helps organizing parties.
     * "I'll participate" (Array of userID)
     * "Invited" (Array of userID - only if the event is private)
     
+### Contrubitors
+* Davenury (e-mail: dawid199960@gmail.com)
