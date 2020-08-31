@@ -9,12 +9,13 @@
 * [Desired Database Structure](#desired-database-structure)
 
 ### What is it?
-Raise Your Glass is a mobile app that helps organizing parties.
+Raise Your Glass is an android app that helps organizing parties.
 
 ---
 
 ### Technologies
-* Kotlin
+* Kotlin (logic of application)
+* XML (layouts of application)
 * Firebase
 
 ---
