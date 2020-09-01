@@ -20,8 +20,19 @@ object Firebase {
     }
 
     /**LOGIN SECTION*/
-    fun loginWithEmailAndPassword(email: String, password: String){
-        LoginComponent.loginWithEmailAndPassword(email, password, context, auth)
+    fun loginWithEmailAndPassword(email: String, password: String): Boolean {
+        return if(Validator.areValid(email, password)){
+            LoginComponent.loginWithEmailAndPassword(
+                email,
+                password,
+                context,
+                auth
+            )
+            true
+        } else{
+            Toast.makeText(context, "Your email or password isn't valid!", Toast.LENGTH_SHORT).show()
+            false
+        }
     }
 
     fun logout(){
@@ -31,7 +42,7 @@ object Firebase {
 
     /**REGISTER SECTION*/
     fun registerWithEmailAndPassword(email: String, password: String): Boolean{
-        if(Validator.areValid(email, password)) {
+        return if(Validator.areValid(email, password)) {
             RegisterComponent.registerUserWithEmailAndPassword(
                 email,
                 password,
@@ -39,11 +50,10 @@ object Firebase {
                 auth,
                 favoritesCollectionRef
             )
-            return true
-        }
-        else{
+            true
+        } else{
             Toast.makeText(context, "Your email or password isn't valid!", Toast.LENGTH_SHORT).show()
-            return false
+            false
         }
     }
 

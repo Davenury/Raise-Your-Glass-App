@@ -5,4 +5,8 @@
     <color name="colorAccent">#89cff0</color>
     <color name="bad">#990D09</color>
     <color name="good">#35BA3B</color>
+    <color name="gradient_start">#2193b0</color>
+    <color name="gradient_end">#6dd5ed</color>
+    <color name="text_color">#303030</color>
+    <color name="background">#f2f2f2</color>
 </resources>
