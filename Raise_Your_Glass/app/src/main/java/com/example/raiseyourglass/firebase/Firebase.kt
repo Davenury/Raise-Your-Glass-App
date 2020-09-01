@@ -1,6 +1,7 @@
 package com.example.raiseyourglass.firebase
 
 import android.content.Context
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -29,12 +30,21 @@ object Firebase {
 
 
     /**REGISTER SECTION*/
-    fun registerWithEmailAndPassword(email: String, password: String){
-        RegisterComponent.registerUserWithEmailAndPassword(email,
-            password,
-            context,
-            auth,
-            favoritesCollectionRef)
+    fun registerWithEmailAndPassword(email: String, password: String): Boolean{
+        if(Validator.areValid(email, password)) {
+            RegisterComponent.registerUserWithEmailAndPassword(
+                email,
+                password,
+                context,
+                auth,
+                favoritesCollectionRef
+            )
+            return true
+        }
+        else{
+            Toast.makeText(context, "Your email or password isn't valid!", Toast.LENGTH_SHORT).show()
+            return false
+        }
     }
 
 
