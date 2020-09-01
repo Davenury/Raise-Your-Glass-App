@@ -23,9 +23,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnRegister.setOnClickListener{
-            Intent(this,RegisterActivity::class.java).also{
-                startActivity(it)
-            }
+            Intent(this,RegisterActivity::class.java).apply{
+                startActivity(this)
         }
     }
 
