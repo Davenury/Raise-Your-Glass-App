@@ -40,7 +40,8 @@ Raise Your Glass is an android app that helps organizing parties.
 
   * Drinks:
     * Name of Drink (String)
-    * type (String) - is it Shot, Long Drink, etc.
+    * Type (String) - is it Shot, Long Drink, etc.
+    * Owner - userID(String)
     * Array of Ingredients (Ingredient type)
     * Array of Steps (Step type / String)
     ---
