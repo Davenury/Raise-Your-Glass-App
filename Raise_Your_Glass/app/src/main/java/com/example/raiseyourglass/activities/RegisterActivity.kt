@@ -3,6 +3,7 @@ package com.example.raiseyourglass.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
@@ -27,7 +28,7 @@ class RegisterActivity : AppCompatActivity() {
         if(Firebase.isUserLogged()){
             Intent()
         }else{
-
+            Toast.makeText(this.applicationContext, "Registration failed", Toast.LENGTH_LONG).show()
         }
     }
 }
