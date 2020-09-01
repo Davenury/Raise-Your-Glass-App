@@ -23,14 +23,18 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnRegister.setOnClickListener{
-            Intent(this,RegisterActivity::class.java)
+            Intent(this,RegisterActivity::class.java).also{
+                startActivity(it)
+            }
         }
     }
 
     private fun checkLogged(){
         if(Firebase.isUserLogged()){
             tvLoggedIn.text = "Logged in"
-            Intent()
+            Intent(this,StartActivity::class.java).also {
+                startActivity(it)
+            }
         }
         else{
             tvLoggedIn.text = "Not logged in"
