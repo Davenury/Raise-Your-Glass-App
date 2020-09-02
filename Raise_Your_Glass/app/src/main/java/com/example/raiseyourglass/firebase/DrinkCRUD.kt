@@ -118,7 +118,8 @@ object DrinkCRUD {
     fun subscribeToDrinkSnapshotListener(
         context:Context,
         drinkCollectionRef: CollectionReference,
-        adapter: DrinksListAdapter
+        adapter: DrinksListAdapter,
+        userFilter:String?
     ){
         drinkCollectionRef
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
@@ -131,7 +132,7 @@ object DrinkCRUD {
                     val drinks = mutableListOf<Drink>()
                     for (document in it){
                         val drink = makeDrinkOutOfDocument(document)
-                        drinks.add(drink)
+                        if(userFilter==null || drink.owner==userFilter)drinks.add(drink)
                     }
                     adapter.drinksList = drinks
                     adapter.notifyDataSetChanged()

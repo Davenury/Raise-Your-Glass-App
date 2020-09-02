@@ -7,7 +7,7 @@
     tools:context=".activities.StartActivity">
 
     <FrameLayout
-        android:id="@+id/flDrinksList"
+        android:id="@+id/flMainStage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
