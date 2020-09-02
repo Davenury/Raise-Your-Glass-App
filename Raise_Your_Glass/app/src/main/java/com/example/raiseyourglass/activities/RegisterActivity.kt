@@ -114,12 +114,7 @@ class RegisterActivity : AppCompatActivity() {
         btnRegister.setOnClickListener {
             val email = etRegisterEmail.text.toString()
             val password = etRegisterPassword.text.toString()
-            if (Firebase.registerWithEmailAndPassword(email, password)) {
-                Toast.makeText(this, "Successfully registered!", Toast.LENGTH_LONG).show()
-                Intent(this, StartActivity::class.java).also{
-                    startActivity(it)
-                }
-            }
+            Firebase.registerWithEmailAndPassword(email, password)
         }
     }
 }

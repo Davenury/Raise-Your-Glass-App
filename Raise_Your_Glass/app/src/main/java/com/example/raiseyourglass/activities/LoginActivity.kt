@@ -22,7 +22,6 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(this)
             }
         }
-
         setListeners()
     }
 
