@@ -11,7 +11,7 @@ import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.fragment_my_drinks.*
 
 
-class MyDrinksFragment : Fragment(R.layout.fragment_my_drinks) {
+class MyDrinksFragment(private val setCurrentFragment: (fragment:Fragment) -> Unit) : Fragment(R.layout.fragment_my_drinks) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,7 +24,7 @@ class MyDrinksFragment : Fragment(R.layout.fragment_my_drinks) {
     }
 
     private fun setRecyclerView(){
-        val adapter = DrinksListAdapter(Firebase.getUserId())
+        val adapter = DrinksListAdapter(setCurrentFragment,Firebase.getUserId())
         rvMyDrinksList.adapter = adapter
         rvMyDrinksList.layoutManager = LinearLayoutManager(view?.context)
     }

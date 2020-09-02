@@ -20,9 +20,8 @@ class StartActivity : AppCompatActivity() {
             }
         }
 
-
-        val drinkListFragment = DrinksListFragment()
-        val myDrinkFragment = MyDrinksFragment()
+        val drinkListFragment = DrinksListFragment{ fragment: Fragment -> setCurrentFragment(fragment) }
+        val myDrinkFragment = MyDrinksFragment { fragment: Fragment -> setCurrentFragment(fragment) }
         val eventsListFragment = EventsListFragment()
         val myEvents = MyEventsFragment()
         val settingsFragment = SettingsFragment { finish() }
