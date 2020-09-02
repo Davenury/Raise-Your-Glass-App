@@ -17,8 +17,6 @@ object LoginComponent {
         auth.signOut()
     }
 
-    //can throw multiple exceptions, catch this in login activity,
-    //so it can display Toast or something...
     fun loginWithEmailAndPassword(
         email: String,
         password: String,

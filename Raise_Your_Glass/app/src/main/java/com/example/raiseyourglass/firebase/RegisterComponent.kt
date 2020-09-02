@@ -16,11 +16,6 @@ import kotlinx.coroutines.tasks.await
 
 object RegisterComponent {
 
-    val auth = FirebaseAuth.getInstance()
-
-    /**
-     * Can throw multiple exceptions, catch in LoginActivity, so
-     * it can be displayed as Toast or something*/
     fun registerUserWithEmailAndPassword(
         email: String,
         password: String,

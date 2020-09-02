@@ -9,13 +9,13 @@ import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.item_drinks_list.view.*
 
-class DrinksListAdapter(userFilter:String ?= null) :
+class DrinksListAdapter(userFilter: String ?= null) :
     RecyclerView.Adapter<DrinksListAdapter.DrinksListViewHolder>() {
 
     var drinksList: List<Drink> = listOf()
 
     init {
-        Firebase.subscribeToDrinkSnapshotListener(this,userFilter)
+        Firebase.subscribeToDrinkSnapshotListener(this, userFilter)
     }
 
 

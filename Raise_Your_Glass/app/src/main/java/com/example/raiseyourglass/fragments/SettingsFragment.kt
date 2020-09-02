@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.firebase.Firebase
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment(val finishActivity: () -> Unit) : Fragment(R.layout.fragment_settings) {
@@ -25,6 +26,10 @@ class SettingsFragment(val finishActivity: () -> Unit) : Fragment(R.layout.fragm
         btnSaveChangedName.setOnClickListener{
             val newName = etNewName.text.toString()
             Firebase.updateUserName(newName)
+        }
+
+        btnDisplayUID.setOnClickListener {
+            tvUID.text = Firebase.getUserId()
         }
     }
 

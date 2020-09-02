@@ -81,15 +81,6 @@ object Firebase {
         DrinkCRUD.addDrink(drink, context, drinksCollectionRef)
     }
 
-    fun getDrinksWithoutRestrictions(drinksCallback: DrinksCallback){
-        DrinkCRUD.getDrinksListWithoutRestrictions(context, drinksCollectionRef, object :
-            DrinksCallback {
-            override fun onCallback(drinks: List<Drink>) {
-                drinksCallback.onCallback(drinks)
-            }
-        })
-    }
-
     fun updateDrink(drink: Drink, newDrinkMap: Map<String, Any>){
         DrinkCRUD.updateDrink(drink, newDrinkMap, context, drinksCollectionRef)
     }
@@ -98,8 +89,8 @@ object Firebase {
         DrinkCRUD.deleteDrink(drink, context, drinksCollectionRef)
     }
 
-    fun subscribeToDrinkSnapshotListener(adapter: DrinksListAdapter,userFilter:String?){
-        DrinkCRUD.subscribeToDrinkSnapshotListener(context, drinksCollectionRef, adapter,userFilter)
+    fun subscribeToDrinkSnapshotListener(adapter: DrinksListAdapter, userFilter:String?){
+        DrinkCRUD.subscribeToDrinkSnapshotListener(context, drinksCollectionRef, adapter, userFilter)
     }
 
 }

@@ -19,7 +19,10 @@ class MyDrinksFragment : Fragment(R.layout.fragment_my_drinks) {
         btnAddDrink.setOnClickListener{
             Toast.makeText(view.context,"New drink add",Toast.LENGTH_LONG).show()
         }
+    }
 
+    override fun onStart() {
+        super.onStart()
         setRecyclerView()
     }
 

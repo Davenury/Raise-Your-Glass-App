@@ -33,39 +33,6 @@ object DrinkCRUD {
         }
     }
 
-    fun getDrinksListWithoutRestrictions(
-        context:Context,
-        drinkCollectionRef: CollectionReference,
-        drinksCallback: DrinksCallback
-    ){
-        val drinks = mutableListOf<Drink>()
-        CoroutineScope(Dispatchers.IO).launch {
-        try {
-            val querySnapshot = drinkCollectionRef.get().await()
-            for (document in querySnapshot.documents) {
-                val drink = makeDrinkOutOfDocument(document)
-                drinks.add(drink)
-            }
-            drinksCallback.onCallback(drinks)
-        } catch (e: Exception) {
-            withContext(Dispatchers.Main){
-                Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    private fun makeDrinkOutOfDocument(document: DocumentSnapshot): Drink{
-        //Log.d("Kurwa", document.data?.get("name").toString())
-        val name = document.data?.get("name") as String
-        val type = document.data?.get("type") as String
-        val owner = document.data?.get("owner") as String
-        val steps = document.data?.get("steps") as List<Step>
-        val ingredients = document.data?.get("ingredients") as List<Ingredient>
-        Log.d("Kurwa", "$name, $type, $owner")
-        return Drink(name, type, owner, ingredients, steps)
-    }
-
     fun updateDrink(
         drink: Drink,
         newDrinkMap: Map<String, Any>,
@@ -138,5 +105,14 @@ object DrinkCRUD {
                     adapter.notifyDataSetChanged()
                 }
             }
+    }
+
+    private fun makeDrinkOutOfDocument(document: DocumentSnapshot): Drink{
+        val name = document.data?.get("name") as String
+        val type = document.data?.get("type") as String
+        val owner = document.data?.get("owner") as String
+        val steps = document.data?.get("steps") as List<Step>
+        val ingredients = document.data?.get("ingredients") as List<Ingredient>
+        return Drink(name, type, owner, ingredients, steps)
     }
 }
