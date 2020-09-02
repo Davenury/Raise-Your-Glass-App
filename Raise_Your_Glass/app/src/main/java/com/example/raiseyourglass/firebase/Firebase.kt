@@ -15,6 +15,7 @@ object Firebase {
     private lateinit var context: Context
     private val auth = FirebaseAuth.getInstance()
 
+    fun getUserId() = auth.currentUser?.uid
     fun getUserName() = auth.currentUser?.displayName
 
     private val drinksCollectionRef = Firebase.firestore.collection("drinks")
@@ -95,8 +96,8 @@ object Firebase {
         DrinkCRUD.deleteDrink(drink, context, drinksCollectionRef)
     }
 
-    fun subscribeToDrinkSnapshotListener(adapter: DrinksListAdapter){
-        DrinkCRUD.subscribeToDrinkSnapshotListener(context, drinksCollectionRef, adapter)
+    fun subscribeToDrinkSnapshotListener(adapter: DrinksListAdapter,userFilter:String?){
+        DrinkCRUD.subscribeToDrinkSnapshotListener(context, drinksCollectionRef, adapter,userFilter)
     }
 
 }

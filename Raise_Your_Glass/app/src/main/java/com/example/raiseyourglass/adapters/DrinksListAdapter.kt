@@ -6,10 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.dataclasses.Drink
+import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.item_drinks_list.view.*
 
-class DrinksListAdapter(var drinksList: List<Drink>) :
+class DrinksListAdapter(userFilter:String ?= null) :
     RecyclerView.Adapter<DrinksListAdapter.DrinksListViewHolder>() {
+
+    var drinksList: List<Drink> = listOf()
+
+    init {
+        Firebase.subscribeToDrinkSnapshotListener(this,userFilter)
+    }
+
 
     inner class DrinksListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

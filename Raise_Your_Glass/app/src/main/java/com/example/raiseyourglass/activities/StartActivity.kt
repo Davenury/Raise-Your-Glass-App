@@ -36,7 +36,7 @@ class StartActivity : AppCompatActivity() {
 
     private fun setCurrentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply{
-            replace(R.id.flDrinksList, fragment)
+            replace(R.id.flMainStage, fragment)
             commit()
         }
     }

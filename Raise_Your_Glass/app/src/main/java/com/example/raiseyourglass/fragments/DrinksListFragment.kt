@@ -18,17 +18,11 @@ class DrinksListFragment : Fragment(R.layout.fragment_drinks_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //val drinksList = mutableListOf(Drink("Moczajto", "Long Drink"),
-          //  Drink("Angry dog", "shot"))
-
         setRecyclerView()
     }
 
     private fun setRecyclerView(){
-        val drinksList: List<Drink> = mutableListOf()
-        val adapter = DrinksListAdapter(drinksList)
-        Firebase.subscribeToDrinkSnapshotListener(adapter)
-        adapter.notifyDataSetChanged()
+        val adapter = DrinksListAdapter()
         rvDrinksList.adapter = adapter
         rvDrinksList.layoutManager = LinearLayoutManager(view?.context)
     }
