@@ -18,7 +18,11 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
+        if(Firebase.isUserLogged()){
+            Intent(this, StartActivity::class.java).apply{
+                startActivity(this)
+            }
+        }
         setListeners()
     }
 

@@ -15,11 +15,10 @@ object Firebase {
     private lateinit var context: Context
     private val auth = FirebaseAuth.getInstance()
 
-    fun getUserName() = auth.currentUser?.displayName
-
     private val drinksCollectionRef = Firebase.firestore.collection("drinks")
     private val favoritesCollectionRef = Firebase.firestore.collection("favorites")
     private val eventsCollectionRef = Firebase.firestore.collection("events")
+    private val userCollectionRef = Firebase.firestore.collection("users")
 
     fun setContext(context: Context){
         this.context = context
@@ -71,6 +70,8 @@ object Firebase {
         val auth = LoginComponent.auth
         return auth.currentUser != null
     }
+
+    fun getUserName() = auth.currentUser?.displayName
 
 
     /**DRINKS CRUD SECTION*/
