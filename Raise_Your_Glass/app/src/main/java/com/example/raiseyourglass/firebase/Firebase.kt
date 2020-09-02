@@ -15,6 +15,8 @@ object Firebase {
     private lateinit var context: Context
     private val auth = FirebaseAuth.getInstance()
 
+    fun getUserName() = auth.currentUser?.displayName
+
     private val drinksCollectionRef = Firebase.firestore.collection("drinks")
     private val favoritesCollectionRef = Firebase.firestore.collection("favorites")
     private val eventsCollectionRef = Firebase.firestore.collection("events")

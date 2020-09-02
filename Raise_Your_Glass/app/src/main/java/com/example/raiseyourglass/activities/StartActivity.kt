@@ -17,7 +17,7 @@ class StartActivity : AppCompatActivity() {
         val myDrinkFragment = MyDrinksFragment()
         val eventsListFragment = EventsListFragment()
         val myEvents = MyEventsFragment()
-        val settingsFragment = SettingsFragment()
+        val settingsFragment = SettingsFragment({ finish() })
 
         setCurrentFragment(drinkListFragment)
 
@@ -40,4 +40,8 @@ class StartActivity : AppCompatActivity() {
             commit()
         }
     }
+
+
+
+
 }
