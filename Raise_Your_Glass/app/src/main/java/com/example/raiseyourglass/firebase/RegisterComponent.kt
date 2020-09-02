@@ -1,7 +1,11 @@
 package com.example.raiseyourglass.firebase
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
+import com.example.raiseyourglass.activities.StartActivity
 import com.example.raiseyourglass.dataclasses.Favorites
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -23,13 +27,11 @@ object RegisterComponent {
         context: Context,
         auth: FirebaseAuth,
         favoritesCollectionRef: CollectionReference
-    ){
+    )=
         CoroutineScope(Dispatchers.IO).launch{
             try {
-                Firebase.firestore.runTransaction {
-                    auth.createUserWithEmailAndPassword(email, password)
-                    prepareUserToLife(context, auth, favoritesCollectionRef)
-                }.await()
+                auth.createUserWithEmailAndPassword(email, password).await()
+                prepareUserToLife(context, auth, favoritesCollectionRef)
             }
             catch (e: Exception){
                 withContext(Dispatchers.Main){
@@ -37,13 +39,13 @@ object RegisterComponent {
                 }
             }
         }
-    }
 
     private fun prepareUserToLife(
         context: Context,
         auth: FirebaseAuth,
         favoritesCollectionRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch{
+        if(auth.currentUser == null) Log.d("Kurwa", "Jest nullem")
         auth.currentUser?.let{
             val favorites = Favorites(
                 it.uid,
@@ -53,6 +55,10 @@ object RegisterComponent {
                 favoritesCollectionRef.add(favorites).await()
                 withContext(Dispatchers.Main){
                     Toast.makeText(context, "Successful registration!", Toast.LENGTH_LONG).show()
+                    Intent(context, StartActivity::class.java).apply{
+                        this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        context.startActivity(this)
+                    }
                 }
             } catch(e: Exception){
                 withContext(Dispatchers.Main){

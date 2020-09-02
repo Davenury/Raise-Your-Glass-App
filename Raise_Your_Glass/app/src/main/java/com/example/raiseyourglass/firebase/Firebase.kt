@@ -1,7 +1,11 @@
 package com.example.raiseyourglass.firebase
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
+import com.example.raiseyourglass.adapters.DrinksListAdapter
+import com.example.raiseyourglass.dataclasses.Drink
+import com.example.raiseyourglass.observers.DrinksCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -43,19 +47,17 @@ object Firebase {
 
 
     /**REGISTER SECTION*/
-    fun registerWithEmailAndPassword(email: String, password: String): Boolean{
-        return if(Validator.areValid(email, password)) {
+    fun registerWithEmailAndPassword(email: String, password: String){
+        if(Validator.areValid(email, password)) {
             RegisterComponent.registerUserWithEmailAndPassword(
                 email,
                 password,
                 context,
                 auth,
-                favoritesCollectionRef
-            )
-            true
-        } else{
+                favoritesCollectionRef)
+        }
+        else{
             Toast.makeText(context, "Your email or password isn't valid!", Toast.LENGTH_SHORT).show()
-            false
         }
     }
 
@@ -68,6 +70,33 @@ object Firebase {
     fun isUserLogged(): Boolean{
         val auth = LoginComponent.auth
         return auth.currentUser != null
+    }
+
+
+    /**DRINKS CRUD SECTION*/
+    fun addDrink(drink: Drink){
+        DrinkCRUD.addDrink(drink, context, drinksCollectionRef)
+    }
+
+    fun getDrinksWithoutRestrictions(drinksCallback: DrinksCallback){
+        DrinkCRUD.getDrinksListWithoutRestrictions(context, drinksCollectionRef, object :
+            DrinksCallback {
+            override fun onCallback(drinks: List<Drink>) {
+                drinksCallback.onCallback(drinks)
+            }
+        })
+    }
+
+    fun updateDrink(drink: Drink, newDrinkMap: Map<String, Any>){
+        DrinkCRUD.updateDrink(drink, newDrinkMap, context, drinksCollectionRef)
+    }
+
+    fun deleteDrink(drink: Drink){
+        DrinkCRUD.deleteDrink(drink, context, drinksCollectionRef)
+    }
+
+    fun subscribeToDrinkSnapshotListener(adapter: DrinksListAdapter){
+        DrinkCRUD.subscribeToDrinkSnapshotListener(context, drinksCollectionRef, adapter)
     }
 
 }
