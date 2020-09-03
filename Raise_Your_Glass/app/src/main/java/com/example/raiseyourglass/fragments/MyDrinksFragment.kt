@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.adapters.DrinksListAdapter
+import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.fragment_my_drinks.*
 
@@ -16,8 +17,11 @@ class MyDrinksFragment(private val setCurrentFragment: (fragment:Fragment) -> Un
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val fragment: DrinkModificationFragment = DrinkModificationFragment(Drink(owner = Firebase.getUserId().toString()))
+
         btnAddDrink.setOnClickListener{
             Toast.makeText(view.context,"New drink add",Toast.LENGTH_LONG).show()
+            setCurrentFragment(fragment)
         }
     }
 

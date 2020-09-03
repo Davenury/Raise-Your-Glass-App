@@ -4,6 +4,6 @@ data class Drink(
     var name: String = "",
     var type: String = "",
     var owner: String = "",
-    var ingredients: List<Ingredient> = mutableListOf(),
-    var steps: List<Step> = mutableListOf()
+    var ingredients: MutableList<Ingredient> = mutableListOf(),
+    var steps: MutableList<Step> = mutableListOf()
 )

@@ -5,4 +5,8 @@
     <string name="dot_in_email_bad">Email without &#x40; &#10006;</string>
     <string name="dot_in_email_good">Email with &#x40; &#x2713;</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <array name="drink_types">
+        <item>Long drink</item>
+        <item>Shot</item>
+    </array>
 </resources>
