@@ -19,14 +19,14 @@ object DrinkCRUD {
         drink: Drink,
         context: Context,
         drinkCollectionRef: CollectionReference
-        ) = CoroutineScope(Dispatchers.IO).launch{
-        try{
+    ) = CoroutineScope(Dispatchers.IO).launch {
+        try {
             drinkCollectionRef.add(drink).await()
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 Toast.makeText(context, "Successfully added your drink!", Toast.LENGTH_SHORT).show()
             }
-        } catch (e: Exception){
-            withContext(Dispatchers.Main){
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
                 Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
             }
         }
@@ -37,22 +37,21 @@ object DrinkCRUD {
         newDrinkMap: Map<String, Any>,
         context: Context,
         drinkCollectionRef: CollectionReference
-    )
-        = CoroutineScope(Dispatchers.IO).launch{
+    ) = CoroutineScope(Dispatchers.IO).launch {
         val drinkQuery = drinkCollectionRef
             .whereEqualTo("name", drink.name)
             .whereEqualTo("type", drink.type)
             .whereEqualTo("owner", drink.owner)
             .get()
             .await()
-        for(document in drinkQuery){
-            try{
+        for (document in drinkQuery) {
+            try {
                 drinkCollectionRef.document(document.id).set(
                     newDrinkMap,
                     SetOptions.merge()
                 ).await()
-            } catch (e: Exception){
-                withContext(Dispatchers.Main){
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
                     Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
                 }
             }
@@ -63,18 +62,18 @@ object DrinkCRUD {
         drink: Drink,
         context: Context,
         drinkCollectionRef: CollectionReference
-    ) = CoroutineScope(Dispatchers.IO).launch{
+    ) = CoroutineScope(Dispatchers.IO).launch {
         val drinkQuery = drinkCollectionRef
             .whereEqualTo("name", drink.name)
             .whereEqualTo("type", drink.type)
             .whereEqualTo("owner", drink.owner)
             .get()
             .await()
-        for(document in drinkQuery){
-            try{
+        for (document in drinkQuery) {
+            try {
                 drinkCollectionRef.document(document.id).delete().await()
-            } catch(e: Exception){
-                withContext(Dispatchers.Main){
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
                     Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
                 }
             }
@@ -82,23 +81,23 @@ object DrinkCRUD {
     }
 
     fun subscribeToDrinkSnapshotListener(
-        context:Context,
+        context: Context,
         drinkCollectionRef: CollectionReference,
         adapter: DrinksListAdapter,
-        userFilter:String?
-    ){
+        userFilter: String?
+    ) {
         drinkCollectionRef
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                firebaseFirestoreException?.let{
+                firebaseFirestoreException?.let {
                     Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
                     return@addSnapshotListener
                 }
 
-                querySnapshot?.let{
+                querySnapshot?.let {
                     val drinks = mutableListOf<Drink>()
-                    for (document in it){
+                    for (document in it) {
                         val drink = makeDrinkOutOfDocument(document)
-                        if(userFilter==null || drink.owner==userFilter)drinks.add(drink)
+                        if (userFilter == null || drink.owner == userFilter) drinks.add(drink)
                     }
                     adapter.drinksList = drinks
                     adapter.notifyDataSetChanged()
@@ -106,12 +105,43 @@ object DrinkCRUD {
             }
     }
 
-    private fun makeDrinkOutOfDocument(document: DocumentSnapshot): Drink{
+    private fun makeDrinkOutOfDocument(document: DocumentSnapshot): Drink {
         val name = document.data?.get("name") as String
         val type = document.data?.get("type") as String
         val owner = document.data?.get("owner") as String
-        val steps = document.data?.get("steps") as List<Step>
-        val ingredients = document.data?.get("ingredients") as List<Ingredient>
-        return Drink(name, type, owner, ingredients, steps)
+        val stepsStrings = document.data?.get("steps") as MutableList<String>
+        val steps = stepsStrings.map { elem -> Step(elem) } as MutableList<Step>
+        val ingredientsMap = document.data?.get("ingredients") as MutableList<HashMap<String,Any>>
+        val ingredients = ingredientsMap.map { elem ->
+            val quantity = elem.get("quantity")
+            Ingredient(
+                elem.getOrDefault("name", "") as String,
+                if(quantity is Long) quantity.toDouble() else quantity as Double,
+                elem.getOrDefault("measurement", "") as String
+            )
+        } as MutableList<Ingredient>
+        return Drink(name, type, owner, ingredients,steps)
     }
 }
+
+
+/*
+val name = document.data?.get("name") as String
+        val type = document.data?.get("type") as String
+        val owner = document.data?.get("owner") as String
+        val stepsStrings = document.data?.get("steps") as List<String>
+        val steps = stepsStrings.map { elem -> Step(elem) }
+        val ingredientsMap = document.data?.get("ingredients") as List<Map<String, String>>
+        val ingredients = ingredientsMap.map { elem ->
+            Ingredient(
+                elem.getOrDefault("name", ""),
+                elem.getOrDefault("quantity","0").toDouble(),
+                elem.getOrDefault("measurement", "")
+            )
+        }
+        val tmp = Drink(name, type, owner, ingredients, steps)
+        Log.e("steps", steps.toString())
+        Log.e("ingredients", ingredients.toString())
+        Log.e("drink", tmp.toString())
+        return tmp
+ */
