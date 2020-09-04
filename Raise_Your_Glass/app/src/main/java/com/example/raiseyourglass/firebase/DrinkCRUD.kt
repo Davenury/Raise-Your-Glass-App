@@ -7,7 +7,6 @@ import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Ingredient
 import com.example.raiseyourglass.dataclasses.Step
-import com.example.raiseyourglass.observers.DrinksCallback
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.SetOptions

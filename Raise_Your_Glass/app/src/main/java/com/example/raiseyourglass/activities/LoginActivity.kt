@@ -17,12 +17,16 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         Firebase.setContext(applicationContext)
 
+        setListeners()
+    }
+
+    override fun onStart() {
+        super.onStart()
         if(Firebase.isUserLogged()){
             Intent(this, StartActivity::class.java).apply{
                 startActivity(this)
             }
         }
-        setListeners()
     }
 
     private fun setListeners() {

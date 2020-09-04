@@ -11,18 +11,17 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="Logout"
-          app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.5"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.073" />
+          app:layout_constraintTop_toTopOf="parent" />
 
       <Switch
           android:id="@+id/switchDarkMode"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_marginTop="24dp"
           android:text="DarkMode"
-          app:layout_constraintBottom_toTopOf="@+id/etNewName"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintHorizontal_bias="0.5"
           app:layout_constraintStart_toStartOf="parent"
@@ -32,10 +31,10 @@
           android:id="@+id/etNewName"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_marginTop="24dp"
           android:ems="10"
           android:inputType="textPersonName"
           android:text="Name"
-          app:layout_constraintBottom_toTopOf="@+id/btnSaveChangedName"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintHorizontal_bias="0.5"
           app:layout_constraintStart_toEndOf="@+id/tvUserName"
@@ -47,42 +46,39 @@
           android:layout_height="wrap_content"
           android:text="New User Name"
           android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-          app:layout_constraintBottom_toTopOf="@+id/btnSaveChangedName"
+          app:layout_constraintBottom_toBottomOf="@+id/etNewName"
           app:layout_constraintEnd_toStartOf="@+id/etNewName"
           app:layout_constraintHorizontal_bias="0.5"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/switchDarkMode" />
+          app:layout_constraintTop_toTopOf="@+id/etNewName" />
 
       <Button
           android:id="@+id/btnSaveChangedName"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
           android:text="Save changes"
-          app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintHorizontal_bias="0.5"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent" />
+          app:layout_constraintTop_toBottomOf="@+id/etNewName" />
 
       <Button
           android:id="@+id/btnDisplayUID"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginTop="8dp"
+          android:layout_marginTop="24dp"
           android:text="Display UID"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.5"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/btnSaveChangedName" />
+          app:layout_constraintTop_toBottomOf="@+id/btnSaveChangedName"
+          tools:layout_editor_absoluteX="143dp" />
 
       <TextView
           android:id="@+id/tvUID"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
           android:text="UID"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.5"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/btnDisplayUID" />
+          app:layout_constraintTop_toBottomOf="@+id/btnDisplayUID"
+          tools:layout_editor_absoluteX="194dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.dataclasses.Drink
-import com.example.raiseyourglass.observers.DrinksCallback
 import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.fragment_drinks_list.*
 

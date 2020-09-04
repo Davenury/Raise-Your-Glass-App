@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.example.raiseyourglass.activities.StartActivity
 import com.example.raiseyourglass.dataclasses.Favorites
+import com.example.raiseyourglass.dataclasses.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -21,12 +22,13 @@ object RegisterComponent {
         password: String,
         context: Context,
         auth: FirebaseAuth,
-        favoritesCollectionRef: CollectionReference
+        favoritesCollectionRef: CollectionReference,
+        userCollectionRef: CollectionReference
     )=
         CoroutineScope(Dispatchers.IO).launch{
             try {
                 auth.createUserWithEmailAndPassword(email, password).await()
-                prepareUserToLife(context, auth, favoritesCollectionRef)
+                prepareUserToLife(context, auth, favoritesCollectionRef, userCollectionRef)
             }
             catch (e: Exception){
                 withContext(Dispatchers.Main){
@@ -38,7 +40,8 @@ object RegisterComponent {
     private fun prepareUserToLife(
         context: Context,
         auth: FirebaseAuth,
-        favoritesCollectionRef: CollectionReference
+        favoritesCollectionRef: CollectionReference,
+        userCollectionRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch{
         if(auth.currentUser == null) Log.d("Kurwa", "Jest nullem")
         auth.currentUser?.let{
@@ -48,6 +51,14 @@ object RegisterComponent {
             )
             try{
                 favoritesCollectionRef.add(favorites).await()
+                if(it.email != null) {
+                    val user = User(
+                        "",
+                        it.uid,
+                        it.email.toString()
+                    )
+                    userCollectionRef.add(user)
+                }
                 withContext(Dispatchers.Main){
                     Toast.makeText(context, "Successful registration!", Toast.LENGTH_LONG).show()
                     Intent(context, StartActivity::class.java).apply{
