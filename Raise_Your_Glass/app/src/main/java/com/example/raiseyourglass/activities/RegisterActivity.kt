@@ -24,6 +24,7 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        Firebase.setContext(this)
         if(Firebase.isUserLogged()){
             Intent(this, StartActivity::class.java).apply{
                 startActivity(this)

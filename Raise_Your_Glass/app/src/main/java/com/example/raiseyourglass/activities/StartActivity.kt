@@ -41,6 +41,11 @@ class StartActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        Firebase.setContext(this)
+    }
+
     private fun setCurrentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply{
             replace(R.id.flMainStage, fragment)

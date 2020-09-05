@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="18dp">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/tvIngName"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Name"
         android:textColor="@color/text_color"
-        android:textSize="12sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvIngQuantity"
         app:layout_constraintHorizontal_bias="0.5"
@@ -26,7 +26,7 @@
         android:layout_marginStart="8dp"
         android:text="Quantity"
         android:textColor="@color/text_color"
-        android:textSize="12sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvIngMeasurement"
         app:layout_constraintHorizontal_bias="0.5"
@@ -40,7 +40,7 @@
         android:layout_marginStart="8dp"
         android:text="Measurement"
         android:textColor="@color/text_color"
-        android:textSize="12sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
