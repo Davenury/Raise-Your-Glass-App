@@ -113,7 +113,6 @@ object DrinkCRUD {
         val stepsStrings = document.data?.get("steps") as MutableList<String>
         val steps = stepsStrings.map { elem -> Step(elem) } as MutableList<Step>
         val ingredientsMap = document.data?.get("ingredients") as MutableList<HashMap<String, Any>>
-        Log.d("Kurwa", "whatever")
         val ingredients = ingredientsMap.map { elem ->
             val quantity = elem["quantity"]
             Ingredient(
