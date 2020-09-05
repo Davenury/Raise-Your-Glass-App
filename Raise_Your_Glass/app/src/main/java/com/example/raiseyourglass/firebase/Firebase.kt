@@ -28,6 +28,10 @@ object Firebase {
         this.context = context
     }
 
+    fun getContext(): Context{
+        return this.context
+    }
+
     /**LOGIN SECTION*/
     fun loginWithEmailAndPassword(email: String, password: String): Boolean {
         return if(Validator.areValid(email, password)){

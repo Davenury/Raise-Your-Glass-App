@@ -15,13 +15,14 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        Firebase.setContext(applicationContext)
+        Firebase.logout()
 
         setListeners()
     }
 
     override fun onStart() {
         super.onStart()
+        Firebase.setContext(this)
         if(Firebase.isUserLogged()){
             Intent(this, StartActivity::class.java).apply{
                 startActivity(this)

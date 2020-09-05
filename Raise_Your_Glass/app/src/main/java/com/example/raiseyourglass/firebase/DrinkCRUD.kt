@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
+import kotlin.reflect.typeOf
 
 object DrinkCRUD {
 
@@ -111,9 +112,10 @@ object DrinkCRUD {
         val owner = document.data?.get("owner") as String
         val stepsStrings = document.data?.get("steps") as MutableList<String>
         val steps = stepsStrings.map { elem -> Step(elem) } as MutableList<Step>
-        val ingredientsMap = document.data?.get("ingredients") as MutableList<HashMap<String,Any>>
+        val ingredientsMap = document.data?.get("ingredients") as MutableList<HashMap<String, Any>>
+        Log.d("Kurwa", "whatever")
         val ingredients = ingredientsMap.map { elem ->
-            val quantity = elem.get("quantity")
+            val quantity = elem["quantity"]
             Ingredient(
                 elem.getOrDefault("name", "") as String,
                 if(quantity is Long) quantity.toDouble() else quantity as Double,
