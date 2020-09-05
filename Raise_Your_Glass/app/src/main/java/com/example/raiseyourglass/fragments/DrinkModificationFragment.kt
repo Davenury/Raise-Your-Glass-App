@@ -15,13 +15,13 @@ import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.fragment_drink_modification.*
 import kotlinx.android.synthetic.main.fragment_drink_modification.view.*
 
-class DrinkModificationFragment(val drink:Drink) : Fragment(R.layout.fragment_drink_modification) {
+class DrinkModificationFragment(val drink: Drink) : Fragment(R.layout.fragment_drink_modification) {
 
     lateinit var drinkTypeArray:Array<String>
 
     private val isNewDrink = drink == Drink(owner = Firebase.getUserId().toString())
 
-    val previousVersionDrink:Drink = drink
+    val previousVersionDrink: Drink = drink
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,9 +50,25 @@ class DrinkModificationFragment(val drink:Drink) : Fragment(R.layout.fragment_dr
             drink.type = spinnerType.selectedItem.toString()
             setChangedValuesRecyclerViews()
             Log.e("Drink",drink.toString())
-            if(isNewDrink) Firebase.addDrink(drink) else Firebase.updateDrink(previousVersionDrink,drink.toMap())
+            val drinkMap = makeDrinkMap()
+            if(isNewDrink) Firebase.addDrink(drink)
+            else Firebase.updateDrink(previousVersionDrink, drinkMap)
         }
 
+    }
+
+    private fun makeDrinkMap(): HashMap<String, Any> {
+        val drinkMap = HashMap<String, Any>()
+        drinkMap["name"] = drink.name
+        drinkMap["type"] = drink.type
+        drinkMap["owner"] = drink.owner
+        drinkMap["ingredients"] = drink.ingredients.map{ ing -> HashMap<String, Any>().apply{
+            this["name"] = ing.name
+            this["quantity"] = ing.quantity
+            this["measurement"] = ing.measurement
+        } }
+        drinkMap["steps"] = drink.steps.map{ elem -> elem.name }
+        return drinkMap
     }
 
 

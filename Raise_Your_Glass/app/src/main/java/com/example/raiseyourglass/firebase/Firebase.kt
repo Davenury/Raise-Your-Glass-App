@@ -84,7 +84,7 @@ object Firebase {
 
     /**DRINKS CRUD SECTION*/
     fun addDrink(drink: Drink){
-        DrinkCRUD.addDrink(drink, context, drinksCollectionRef)
+        DrinkCRUD.addDrink(drink.changeDrinkForm(), context, drinksCollectionRef)
     }
 
     fun updateDrink(drink: Drink, newDrinkMap: Map<String, Any>){

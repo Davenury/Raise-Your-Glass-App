@@ -16,4 +16,18 @@ data class Drink(
             "steps" to steps.map { elem -> elem.toString()}
         )
     }
+
+    fun changeDrinkForm(): DrinkToAdd{
+        val stringSteps = mutableListOf<String>()
+        this.steps.forEach {
+            stringSteps.add(it.name)
+        }
+        return DrinkToAdd(
+            this.name,
+            this.type,
+            this.owner,
+            this.ingredients,
+            stringSteps
+        )
+    }
 }

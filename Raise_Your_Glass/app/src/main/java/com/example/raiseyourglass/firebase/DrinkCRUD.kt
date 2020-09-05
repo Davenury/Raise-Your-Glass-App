@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.dataclasses.Drink
+import com.example.raiseyourglass.dataclasses.DrinkToAdd
 import com.example.raiseyourglass.dataclasses.Ingredient
 import com.example.raiseyourglass.dataclasses.Step
 import com.google.firebase.firestore.CollectionReference
@@ -17,7 +18,7 @@ import kotlin.reflect.typeOf
 object DrinkCRUD {
 
     fun addDrink(
-        drink: Drink,
+        drink: DrinkToAdd,
         context: Context,
         drinkCollectionRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch {
@@ -51,6 +52,10 @@ object DrinkCRUD {
                     newDrinkMap,
                     SetOptions.merge()
                 ).await()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Successfully edited this drink!", Toast.LENGTH_SHORT)
+                        .show()
+                }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
@@ -108,6 +113,7 @@ object DrinkCRUD {
 
     private fun makeDrinkOutOfDocument(document: DocumentSnapshot): Drink {
         val name = document.data?.get("name") as String
+        Log.d("Kurwa", name)
         val type = document.data?.get("type") as String
         val owner = document.data?.get("owner") as String
         val stepsStrings = document.data?.get("steps") as MutableList<String>
