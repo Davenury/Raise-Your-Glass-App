@@ -15,10 +15,10 @@ object UsersComponent {
     fun getUserByUID(
         uid: String,
         context: Context,
-        userCollectionRef: CollectionReference,
+        collectionRef: CollectionReference,
         view: TextView
     ) = CoroutineScope(Dispatchers.Default).launch{
-        userCollectionRef
+        collectionRef
             .whereEqualTo("userID", uid)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let{
@@ -27,7 +27,7 @@ object UsersComponent {
                 }
 
                 querySnapshot?.let{
-                    var user = User("", uid, "This User didn't put his data")
+                    var user = User("", uid, "Without data")
                     for (document in it){
                         user = document.toObject()
                     }

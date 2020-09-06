@@ -1,11 +1,14 @@
 package com.example.raiseyourglass.firebase
 
 import android.content.Context
+import android.provider.CalendarContract
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import com.example.raiseyourglass.adapters.AllAvailableEventsAdapter
 import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.dataclasses.Drink
+import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.dataclasses.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -99,11 +102,46 @@ object Firebase {
         DrinkCRUD.subscribeToDrinkSnapshotListener(context, drinksCollectionRef, adapter, userFilter)
     }
 
-    fun setOwner(owner: String, view: TextView) {
-        Log.d("Kurwa", "get Owner")
-        Log.d("Kurwa", owner)
-        var currentUser = User("", owner, "This User didn't pass his data")
+    fun setDrinkOwner(owner: String, view: TextView) {
         UsersComponent.getUserByUID(owner, context, userCollectionRef, view)
+    }
+
+
+    /**Events CRUD Section*/
+    fun addEvent(event: Event){
+        EventsCRUD.addEvent(event, context, eventsCollectionRef)
+    }
+
+    fun updateEvent(event: Event, newEventMap: HashMap<String, Any>){
+        EventsCRUD.updateEvent(event, newEventMap, context, eventsCollectionRef)
+    }
+
+    fun deleteEvent(event: Event){
+        EventsCRUD.deleteEvent(event, context, eventsCollectionRef)
+    }
+
+    fun subscribeToAllEventsListener(adapter: AllAvailableEventsAdapter){
+        EventsCRUD.allEventsSnapshotListener(context, eventsCollectionRef, this.getUserId(), adapter)
+    }
+
+    fun changeEventType(event: Event, toBePrivate: Boolean){
+        EventsCRUD.changeEventType(event, context, eventsCollectionRef, toBePrivate)
+    }
+
+    fun inviteUser(event: Event, userID: String){
+        EventsCRUD.inviteUser(event, context, eventsCollectionRef, userID)
+    }
+
+    fun participate(event: Event){
+        EventsCRUD.thisUserWillParticipate(event, context, eventsCollectionRef, this.getUserId()!!)
+    }
+
+    fun uninviteUser(event: Event, userID: String){
+        EventsCRUD.uninviteUser(event, context, eventsCollectionRef, userID)
+    }
+
+    fun setEventOwner(owner: String, view: TextView) {
+        UsersComponent.getUserByUID(owner, context, eventsCollectionRef, view)
     }
 
 }

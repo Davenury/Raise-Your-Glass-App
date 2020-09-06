@@ -113,7 +113,6 @@ object DrinkCRUD {
 
     private fun makeDrinkOutOfDocument(document: DocumentSnapshot): Drink {
         val name = document.data?.get("name") as String
-        Log.d("Kurwa", name)
         val type = document.data?.get("type") as String
         val owner = document.data?.get("owner") as String
         val stepsStrings = document.data?.get("steps") as MutableList<String>
@@ -130,25 +129,3 @@ object DrinkCRUD {
         return Drink(name, type, owner, ingredients,steps)
     }
 }
-
-
-/*
-val name = document.data?.get("name") as String
-        val type = document.data?.get("type") as String
-        val owner = document.data?.get("owner") as String
-        val stepsStrings = document.data?.get("steps") as List<String>
-        val steps = stepsStrings.map { elem -> Step(elem) }
-        val ingredientsMap = document.data?.get("ingredients") as List<Map<String, String>>
-        val ingredients = ingredientsMap.map { elem ->
-            Ingredient(
-                elem.getOrDefault("name", ""),
-                elem.getOrDefault("quantity","0").toDouble(),
-                elem.getOrDefault("measurement", "")
-            )
-        }
-        val tmp = Drink(name, type, owner, ingredients, steps)
-        Log.e("steps", steps.toString())
-        Log.e("ingredients", ingredients.toString())
-        Log.e("drink", tmp.toString())
-        return tmp
- */

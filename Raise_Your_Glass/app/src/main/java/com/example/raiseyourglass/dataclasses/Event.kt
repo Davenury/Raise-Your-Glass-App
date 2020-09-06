@@ -1,6 +1,6 @@
 package com.example.raiseyourglass.dataclasses
 
-import java.time.LocalDateTime
+import java.util.*
 
 
 data class Event(
@@ -15,7 +15,7 @@ data class Event(
      * participants - list of userIDs that will participate in event
      * invited - list of userIDs that are invited to the event*/
 
-    var date: LocalDateTime = LocalDateTime.now(),
+    var date: Date = Date(),
     var place: String = "",
     var isPrivate: Boolean = false,
     var ownerID: String = "",

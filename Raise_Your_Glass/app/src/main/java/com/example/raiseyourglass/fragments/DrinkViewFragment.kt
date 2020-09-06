@@ -25,7 +25,7 @@ class DrinkViewFragment(val drink: Drink) : Fragment(R.layout.fragment_drink_vie
     private fun setDrinkDetails(){
         tvName.text = drink.name
         tvDrinkType.text = drink.type
-        Firebase.setOwner(drink.owner, tvDrinkOwner)
+        Firebase.setDrinkOwner(drink.owner, tvDrinkOwner)
         setIngredients()
         setSteps()
     }
