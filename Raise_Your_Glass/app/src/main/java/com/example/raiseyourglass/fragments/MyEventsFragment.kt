@@ -7,18 +7,19 @@ import com.example.raiseyourglass.R
 import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.fragment_my_events.*
+import java.time.LocalDate
 import java.util.*
 
-/**Please, remember, that when you make a Date (unless you'll find another method for displaying time, 
- * I'm fed up with this shit), months go from 0 to 11*/
+
 class MyEventsFragment : Fragment(R.layout.fragment_my_events) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val date = Date(2020, 11, 5)
+        val date = LocalDate.of(2020,12,5)
+
 
         btnAddEvent.setOnClickListener {
-            val event = Event(
+            val event = Event.apply(
                 date,
                 "Twoja Stara",
                 true,

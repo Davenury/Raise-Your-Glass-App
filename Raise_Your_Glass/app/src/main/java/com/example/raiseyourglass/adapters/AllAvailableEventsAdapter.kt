@@ -9,6 +9,7 @@ import com.example.raiseyourglass.R
 import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.event_item.view.*
+import java.time.ZoneId
 import java.util.*
 
 class AllAvailableEventsAdapter(
@@ -43,7 +44,8 @@ class AllAvailableEventsAdapter(
         holder.itemView.apply{
             this.tvEventStatus.text = status
             this.tvEventPlace.text = event.place
-            this.tvEventDate.text = "${event.date.date}-${event.date.month + 1}-${event.date.year}"
+            val localDate = event.dateToLocalDate()
+            this.tvEventDate.text = "${localDate.year}-${localDate.month.value}-${localDate.dayOfMonth}"
         }
     }
 }

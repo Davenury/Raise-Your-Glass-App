@@ -1,5 +1,7 @@
 package com.example.raiseyourglass.dataclasses
 
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.*
 
 
@@ -22,4 +24,28 @@ data class Event(
     var orders: List<Order> = mutableListOf(),
     var participants: List<String> = mutableListOf(),
     var invited: List<String> = mutableListOf()
-)
+) {
+
+    companion object {
+        fun apply(
+            date: LocalDate,
+            place: String,
+            isPrivate: Boolean,
+            ownerID: String,
+            orders: List<Order>,
+            participants: List<String>,
+            invited: List<String>
+        ): Event =
+            Event(localDateToDate(date), place, isPrivate, ownerID, orders, participants, invited)
+
+        private fun localDateToDate(localDate: LocalDate): Date = java.util.Date.from(
+            localDate.atStartOfDay().atZone(
+                ZoneId.systemDefault()
+            ).toInstant()
+        )
+
+    }
+
+    fun dateToLocalDate(): LocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+
+}
