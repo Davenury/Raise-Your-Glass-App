@@ -69,6 +69,20 @@
         app:layout_constraintStart_toEndOf="@+id/tvDate"
         app:layout_constraintTop_toTopOf="@+id/tvDate" />
 
+    <TextView
+        android:id="@+id/tvDatePicked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="You have't pick any date yet"
+        android:textAlignment="center"
+        android:textColor="@color/secondary_text_color"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
     <Button
         android:id="@+id/btnInviteUsers"
         android:layout_width="wrap_content"
@@ -79,7 +93,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDatePicked" />
 
     <TextView
         android:id="@+id/tvAddedNFriends"

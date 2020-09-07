@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.adapters.InviteUsersAdapter
@@ -49,15 +50,22 @@ class EventModificationFragment : Fragment(R.layout.fragment_event_modification)
 
         ivDatePicker.setOnClickListener {
             val dialog = DatePickerDialog(activity!!,
-                DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+                    val now = Calendar.getInstance()
                     calendar.set(Calendar.YEAR, year)
                     calendar.set(Calendar.MONTH, month)
                     calendar.set(Calendar.DAY_OF_MONTH, day)
+                    if(calendar.before(now)){
+                        Toast.makeText(activity, "Please, select today or further days", Toast.LENGTH_SHORT).show()
+                        return@OnDateSetListener
+                    }
                     date = calendar.time
                 },
                 year, month, day
             )
+            dialog.datePicker.minDate = System.currentTimeMillis() - 1000
             dialog.show()
+            tvDatePicked.text = "You've picked ${date.day}-${date.month + 1}-${date.year}"  //To chyba nie działa XD
         }
     }
 
