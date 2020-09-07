@@ -13,26 +13,41 @@ import kotlinx.android.synthetic.main.fragment_event_view.*
 
 class EventViewFragment(val event: Event) : Fragment(R.layout.fragment_event_view) {
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Firebase.setContext(view.context)
         setEventDetails()
         setRecycleViewParticipant()
     }
 
     private fun setRecycleViewParticipant() {
-        val adapter = EventParticipantsListAdapter(event.participants,event.invited)
+        val userID = Firebase.getUserId()
+        val filterNotFunction = {elem:String -> elem == userID}
+        val adapter = EventParticipantsListAdapter(event.participants.filterNot(filterNotFunction),
+            event.invited.filterNot(filterNotFunction))
         rvEventParticipants.adapter = adapter
         rvEventParticipants.layoutManager = LinearLayoutManager(view?.context)
     }
 
     private fun setEventDetails() {
-        Log.e("Error","Whata")
-        Firebase.setUserToTextView(event.ownerID,tvEventHostName)
-        tvEventIsPrivate.setText(if(event.isPrivate)"Private" else "Public")
+        Firebase.setUserToTextView(event.ownerID, tvEventHostName)
+        tvEventIsPrivate.setText(if (event.isPrivate) "Private" else "Public")
         val localDate = event.dateToLocalDate()
         tvEventDate.setText("${localDate.year}-${localDate.month.value}-${localDate.dayOfMonth}")
         tvEventPlace.setText(event.place)
+
+        if (event.ownerID == Firebase.getUserId()) {
+            switchInvitation.visibility = View.GONE
+        } else {
+            val userID = Firebase.getUserId()
+            switchInvitation.isChecked = event.participants.contains(userID)
+            switchInvitation.setOnCheckedChangeListener { compoundButton, isChecked ->
+                if (isChecked && userID != null)Firebase.participate(event)
+                else if (!isChecked && userID != null)Firebase.participate(event)
+            }
+        }
     }
 
 }

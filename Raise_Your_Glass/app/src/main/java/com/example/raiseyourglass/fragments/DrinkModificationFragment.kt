@@ -50,26 +50,12 @@ class DrinkModificationFragment(val drink: Drink) : Fragment(R.layout.fragment_d
             drink.type = spinnerType.selectedItem.toString()
             setChangedValuesRecyclerViews()
             Log.e("Drink",drink.toString())
-            val drinkMap = makeDrinkMap()
             if(isNewDrink) Firebase.addDrink(drink)
-            else Firebase.updateDrink(previousVersionDrink, drinkMap)
+            else Firebase.updateDrink(previousVersionDrink, drink.toMap())
         }
 
     }
 
-    private fun makeDrinkMap(): HashMap<String, Any> {
-        val drinkMap = HashMap<String, Any>()
-        drinkMap["name"] = drink.name
-        drinkMap["type"] = drink.type
-        drinkMap["owner"] = drink.owner
-        drinkMap["ingredients"] = drink.ingredients.map{ ing -> HashMap<String, Any>().apply{
-            this["name"] = ing.name
-            this["quantity"] = ing.quantity
-            this["measurement"] = ing.measurement
-        } }
-        drinkMap["steps"] = drink.steps.map{ elem -> elem.name }
-        return drinkMap
-    }
 
 
     private fun setRecycleViewIngredients(){

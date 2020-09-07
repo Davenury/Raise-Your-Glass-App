@@ -8,26 +8,16 @@ data class Drink(
     var steps: MutableList<Step> = mutableListOf()
 ){
     fun toMap():Map<String,Any> {
-        return mapOf<String,Any>(
-            "name" to name,
-            "owner" to owner,
-            "type" to type,
-            "ingredients" to ingredients.map {elem -> elem.toMap()},
-            "steps" to steps.map { elem -> elem.toString()}
-        )
-    }
-
-    fun changeDrinkForm(): DrinkToAdd{
-        val stringSteps = mutableListOf<String>()
-        this.steps.forEach {
-            stringSteps.add(it.name)
-        }
-        return DrinkToAdd(
-            this.name,
-            this.type,
-            this.owner,
-            this.ingredients,
-            stringSteps
-        )
+        val drinkMap = HashMap<String, Any>()
+        drinkMap["name"] = name
+        drinkMap["type"] = type
+        drinkMap["owner"] = owner
+        drinkMap["ingredients"] = ingredients.map{ ing -> HashMap<String, Any>().apply{
+            this["name"] = ing.name
+            this["quantity"] = ing.quantity
+            this["measurement"] = ing.measurement
+        } }
+        drinkMap["steps"] = steps.map{ elem -> elem.name }
+        return drinkMap
     }
 }

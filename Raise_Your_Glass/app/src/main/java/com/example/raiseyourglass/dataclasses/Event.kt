@@ -21,9 +21,9 @@ data class Event(
     var place: String = "",
     var isPrivate: Boolean = false,
     var ownerID: String = "",
-    var orders: List<Order> = mutableListOf(),
-    var participants: List<String> = mutableListOf(),
-    var invited: List<String> = mutableListOf()
+    var orders: MutableList<Order> = mutableListOf(),
+    var participants: MutableList<String> = mutableListOf(),
+    var invited: MutableList<String> = mutableListOf()
 ) {
 
     companion object {
@@ -32,9 +32,9 @@ data class Event(
             place: String,
             isPrivate: Boolean,
             ownerID: String,
-            orders: List<Order>,
-            participants: List<String>,
-            invited: List<String>
+            orders: MutableList<Order>,
+            participants: MutableList<String>,
+            invited: MutableList<String>
         ): Event =
             Event(localDateToDate(date), place, isPrivate, ownerID, orders, participants, invited)
 
@@ -47,5 +47,18 @@ data class Event(
     }
 
     fun dateToLocalDate(): LocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+
+    fun toMap():Map<String,Any> {
+        val eventMap = HashMap<String, Any>()
+        eventMap["date"] = dateToLocalDate()
+        eventMap["place"] = place
+        eventMap["ownerID"] = ownerID
+        eventMap["orders"] = orders.map{ order -> HashMap<String, Any>().apply{
+            this["userID"] = order.userID
+            this["comments"] = order.comments
+            this["orders"] = order.orders.map { elem -> elem.toMap() }
+        } }
+        return eventMap
+    }
 
 }

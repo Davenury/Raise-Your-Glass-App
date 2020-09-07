@@ -1,11 +1,9 @@
 package com.example.raiseyourglass.firebase
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.dataclasses.Drink
-import com.example.raiseyourglass.dataclasses.DrinkToAdd
 import com.example.raiseyourglass.dataclasses.Ingredient
 import com.example.raiseyourglass.dataclasses.Step
 import com.google.firebase.firestore.CollectionReference
@@ -13,17 +11,17 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import kotlin.reflect.typeOf
 
 object DrinkCRUD {
 
     fun addDrink(
-        drink: DrinkToAdd,
+        drink: Drink,
         context: Context,
         drinkCollectionRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch {
         try {
-            drinkCollectionRef.add(drink).await()
+
+            drinkCollectionRef.add(drink.toMap()).await()
             withContext(Dispatchers.Main) {
                 Toast.makeText(context, "Successfully added your drink!", Toast.LENGTH_SHORT).show()
             }

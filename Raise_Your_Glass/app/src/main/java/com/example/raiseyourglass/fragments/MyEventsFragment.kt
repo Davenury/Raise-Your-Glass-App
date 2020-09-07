@@ -24,9 +24,9 @@ class MyEventsFragment : Fragment(R.layout.fragment_my_events) {
                 "Twoja Stara",
                 true,
                 Firebase.getUserId()!!,
-                listOf(),
-                listOf(),
-                listOf("f9F10BPhfUSK6Db6qpuCBJACqhA2")
+                mutableListOf(),
+                mutableListOf(),
+                mutableListOf("f9F10BPhfUSK6Db6qpuCBJACqhA2")
             )
             Firebase.addEvent(event)
         }

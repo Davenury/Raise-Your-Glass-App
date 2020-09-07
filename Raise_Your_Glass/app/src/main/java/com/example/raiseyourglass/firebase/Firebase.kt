@@ -1,15 +1,12 @@
 package com.example.raiseyourglass.firebase
 
 import android.content.Context
-import android.provider.CalendarContract
-import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import com.example.raiseyourglass.adapters.AllAvailableEventsAdapter
 import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Event
-import com.example.raiseyourglass.dataclasses.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -87,7 +84,7 @@ object Firebase {
 
     /**DRINKS CRUD SECTION*/
     fun addDrink(drink: Drink){
-        DrinkCRUD.addDrink(drink.changeDrinkForm(), context, drinksCollectionRef)
+        DrinkCRUD.addDrink(drink, context, drinksCollectionRef)
     }
 
     fun updateDrink(drink: Drink, newDrinkMap: Map<String, Any>){
@@ -112,7 +109,7 @@ object Firebase {
         EventsCRUD.addEvent(event, context, eventsCollectionRef)
     }
 
-    fun updateEvent(event: Event, newEventMap: HashMap<String, Any>){
+    fun updateEvent(event: Event, newEventMap: Map<String, Any>){
         EventsCRUD.updateEvent(event, newEventMap, context, eventsCollectionRef)
     }
 
@@ -133,7 +130,7 @@ object Firebase {
     }
 
     fun participate(event: Event){
-        EventsCRUD.thisUserWillParticipate(event, context, eventsCollectionRef, this.getUserId()!!)
+        EventsCRUD.changeUserParticipation(event, context, eventsCollectionRef, this.getUserId()!!)
     }
 
     fun uninviteUser(event: Event, userID: String){
