@@ -93,7 +93,11 @@ object Firebase {
 
     /**DRINKS CRUD SECTION*/
     fun addDrink(drink: Drink){
-        DrinkCRUD.addDrink(drink, context, drinksCollectionRef)
+        if(Validator.addDrinkValidator(drink))
+            DrinkCRUD.addDrink(drink, context, drinksCollectionRef)
+        else{
+            Toast.makeText(context, "Drink wasn't added! Check for Drink name and Type!", Toast.LENGTH_LONG).show()
+        }
     }
 
     fun updateDrink(drink: Drink, newDrinkMap: Map<String, Any>){
@@ -115,7 +119,11 @@ object Firebase {
 
     /**Events CRUD Section*/
     fun addEvent(event: Event){
-        EventsCRUD.addEvent(event, context, eventsCollectionRef)
+        if(Validator.addEventValidator(event))
+            EventsCRUD.addEvent(event, context, eventsCollectionRef)
+        else{
+            Toast.makeText(context, "Event wasn't added! Check for Place of Event and its Date (click on calendar icon to choose date)", Toast.LENGTH_LONG).show()
+        }
     }
 
     fun updateEvent(event: Event, newEventMap: Map<String, Any>){

@@ -3,7 +3,7 @@ package com.example.raiseyourglass.firebase
 import org.junit.Test
 import com.google.common.truth.Truth.assertThat
 
-class ValidatorAreValidTest{
+class ValidatorLoginValidTest{
     @Test
     fun `empty email returns false`(){
         //given

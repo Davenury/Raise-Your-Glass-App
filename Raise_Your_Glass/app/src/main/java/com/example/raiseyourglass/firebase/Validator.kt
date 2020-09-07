@@ -1,5 +1,9 @@
 package com.example.raiseyourglass.firebase
 
+import com.example.raiseyourglass.dataclasses.Drink
+import com.example.raiseyourglass.dataclasses.Event
+import java.util.*
+
 object Validator {
 
     fun areValid(email: String, password: String):Boolean{
@@ -14,7 +18,15 @@ object Validator {
         return email.isNotEmpty() && email.contains("@")
     }
 
-    fun addEventValidator(): Boolean{
-        return false
+    fun addDrinkValidator(drink: Drink): Boolean{
+        if(drink.name == "") return false
+        if(drink.type == "") return false
+        return true
+    }
+
+    fun addEventValidator(event: Event): Boolean{
+        if(event.date == Date(1000, 0, 1)) return false
+        if(event.place.isEmpty()) return false
+        return true
     }
 }

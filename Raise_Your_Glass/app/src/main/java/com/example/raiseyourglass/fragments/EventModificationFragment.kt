@@ -101,7 +101,6 @@ class EventModificationFragment : Fragment(R.layout.fragment_event_modification)
                 invited
             )
             Firebase.addEvent(event)
-            TODO("Validator and validator tests, add to database")
         }
     }
 }
