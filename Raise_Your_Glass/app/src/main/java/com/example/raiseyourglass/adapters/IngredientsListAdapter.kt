@@ -28,8 +28,8 @@ class IngredientsListAdapter(val ingredientsList:MutableList<Ingredient>,
 
         override fun afterTextChanged(s: Editable?) {
             when(type){
-                ingredientParam.NAME -> changedData[position].name = s.toString()
-                ingredientParam.MEASURMENT -> changedData[position].measurement = s.toString()
+                ingredientParam.NAME -> changedData[position].name = s.toString()?:""
+                ingredientParam.MEASURMENT -> changedData[position].measurement = s.toString()?:""
                 ingredientParam.QUANTITY -> changedData[position].quantity = s.toString().toDouble()
             }
         }

@@ -201,15 +201,15 @@ object EventsCRUD {
                 elem["orders"] as MutableList<Drink>,   //zakład, że jebnie? - jak trzeba będzie pierdolić się z kolejną mapą, to ja pierdolnę...
                 elem["comments"] as List<String>
             )
-        }
+        }.toMutableList()
         return Event(
             date,
             document["place"] as String,
             document["private"] as Boolean,
             document["ownerID"] as String,
             orders,
-            document["participants"] as List<String>,
-            document["invited"] as List<String>
+            document["participants"] as MutableList<String>,
+            document["invited"] as MutableList<String>
         )
     }
 
@@ -268,7 +268,7 @@ object EventsCRUD {
     }
 
     /**It only adds user to participants list, not deleting him from invited*/
-    fun thisUserWillParticipate(
+    fun changeUserParticipation(
         event: Event,
         context: Context,
         eventsRef: CollectionReference,
@@ -277,16 +277,20 @@ object EventsCRUD {
         val eventQuery = eventsRef
             .whereEqualTo("place", event.place)
             .whereEqualTo("ownerID", event.ownerID)
-            .whereEqualTo("isPrivate", event.isPrivate)
+            .whereEqualTo("private", event.isPrivate)
             .whereEqualTo("date", event.date)
             .whereArrayContains("invited", userID)
             .get()
             .await()
+        Log.e("Participation",eventQuery.size().toString())
         for(eventDoc in eventQuery) {
             try {
-                eventsRef.document(eventDoc.id).update(
-                    "participants", FieldValue.arrayUnion(userID)
-                )
+                Log.e("Participation","$userID  ${event.participants.contains(userID)}")
+                if(!event.participants.contains(userID)){
+                    eventsRef.document(eventDoc.id).update("participants", FieldValue.arrayUnion(userID))
+                }else{
+                    eventsRef.document(eventDoc.id).update("participants",FieldValue.arrayRemove(userID))
+                }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
