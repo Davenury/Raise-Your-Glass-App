@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.example.raiseyourglass.adapters.AllAvailableEventsAdapter
+import com.example.raiseyourglass.adapters.MyEventsAdapter
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.dataclasses.Order
@@ -81,7 +82,7 @@ object EventsCRUD {
         val eventQuery = eventsRef
             .whereEqualTo("place", event.place)
             .whereEqualTo("ownerID", event.ownerID)
-            .whereEqualTo("isPrivate", event.isPrivate)
+            .whereEqualTo("private", event.isPrivate)
             .whereEqualTo("date", event.date)
             .get()
             .await()
@@ -94,6 +95,32 @@ object EventsCRUD {
                 }
             }
         }
+    }
+
+    fun allMyEventsSnapshotListener(
+        context: Context,
+        eventsRef: CollectionReference,
+        userUID: String?,
+        adapter: MyEventsAdapter
+    ){
+        val events = adapter.myEvents
+        eventsRef
+            .whereEqualTo("ownerID", userUID)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                querySnapshot?.let {
+                    for (document in it) {
+                        val event = makeEventOutOfDocument(document)
+                        events.add(event)
+                    }
+                    adapter.myEvents = events
+                    adapter.notifyDataSetChanged()
+                }
+            }
     }
 
     fun allEventsSnapshotListener(

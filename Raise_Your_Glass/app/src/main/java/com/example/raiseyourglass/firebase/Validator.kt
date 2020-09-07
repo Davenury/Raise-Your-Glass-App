@@ -13,4 +13,8 @@ object Validator {
     fun isEmailValid(email: String): Boolean{
         return email.isNotEmpty() && email.contains("@")
     }
+
+    fun addEventValidator(): Boolean{
+        return false
+    }
 }

@@ -57,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**TODO - Validate it!*/
     private fun setLoginListener(){
         btnLogin.setOnClickListener {
             val email = etLoginEmail.text.toString()

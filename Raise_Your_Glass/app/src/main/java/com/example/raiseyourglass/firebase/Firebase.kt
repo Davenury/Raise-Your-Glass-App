@@ -7,6 +7,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.raiseyourglass.adapters.AllAvailableEventsAdapter
 import com.example.raiseyourglass.adapters.DrinksListAdapter
+import com.example.raiseyourglass.adapters.InviteUsersAdapter
+import com.example.raiseyourglass.adapters.MyEventsAdapter
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.dataclasses.User
@@ -19,8 +21,6 @@ object Firebase {
     private lateinit var context: Context
     private val auth = FirebaseAuth.getInstance()
 
-    fun getUserId() = auth.currentUser?.uid
-    fun getUserName() = auth.currentUser?.displayName
 
     private val drinksCollectionRef = Firebase.firestore.collection("drinks")
     private val favoritesCollectionRef = Firebase.firestore.collection("favorites")
@@ -51,8 +51,17 @@ object Firebase {
         }
     }
 
+    /**User Section*/
+
+    fun getUserId() = auth.currentUser?.uid
+    fun getUserName() = auth.currentUser?.displayName
+
     fun logout(){
         LoginComponent.logout()
+    }
+
+    fun getAllUsers(adapter: InviteUsersAdapter){
+        UsersComponent.getAllUsers(context, userCollectionRef, adapter)
     }
 
 
@@ -122,6 +131,10 @@ object Firebase {
 
     fun subscribeToAllEventsListener(adapter: AllAvailableEventsAdapter){
         EventsCRUD.allEventsSnapshotListener(context, eventsCollectionRef, this.getUserId(), adapter)
+    }
+
+    fun myEventsSnapshotListener(adapter: MyEventsAdapter){
+        EventsCRUD.allMyEventsSnapshotListener(context, eventsCollectionRef, this.getUserId(), adapter)
     }
 
     fun changeEventType(event: Event, toBePrivate: Boolean){
