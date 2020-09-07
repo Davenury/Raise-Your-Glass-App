@@ -153,8 +153,10 @@ object Firebase {
         EventsCRUD.uninviteUser(event, context, eventsCollectionRef, userID)
     }
 
-    fun setEventOwner(owner: String, view: TextView) {
+    fun setUserToTextView(owner: String, view: TextView) {
         UsersComponent.getUserByUID(owner, context, eventsCollectionRef, view)
     }
+
+
 
 }

@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_drinks_list.*
 import kotlinx.android.synthetic.main.fragment_events_list.*
 
 
-class EventsListFragment : Fragment(R.layout.fragment_events_list) {
+class EventsListFragment(private val setCurrentFragment: (fragment:Fragment) -> Unit) : Fragment(R.layout.fragment_events_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -25,7 +25,7 @@ class EventsListFragment : Fragment(R.layout.fragment_events_list) {
     }
 
     private fun setRecyclerView() {
-        val adapter = AllAvailableEventsAdapter(mutableListOf())
+        val adapter = AllAvailableEventsAdapter(setCurrentFragment)
         rvEvents.adapter = adapter
         rvEvents.layoutManager = LinearLayoutManager(view?.context)
     }
