@@ -14,6 +14,14 @@ import kotlinx.coroutines.tasks.await
 
 object DrinkCRUD {
 
+    private const val NAME = "name"
+    private const val TYPE = "type"
+    private const val OWNER = "owner"
+    private const val STEPS = "steps"
+    private const val INGREDIENTS = "ingredients"
+    private const val QUANTITY = "quantity"
+    private const val MEASUREMENT = "measurement"
+
     fun addDrink(
         drink: Drink,
         context: Context,
@@ -39,9 +47,9 @@ object DrinkCRUD {
         drinkCollectionRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch {
         val drinkQuery = drinkCollectionRef
-            .whereEqualTo("name", drink.name)
-            .whereEqualTo("type", drink.type)
-            .whereEqualTo("owner", drink.owner)
+            .whereEqualTo(NAME, drink.name)
+            .whereEqualTo(TYPE, drink.type)
+            .whereEqualTo(OWNER, drink.owner)
             .get()
             .await()
         for (document in drinkQuery) {
@@ -68,9 +76,9 @@ object DrinkCRUD {
         drinkCollectionRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch {
         val drinkQuery = drinkCollectionRef
-            .whereEqualTo("name", drink.name)
-            .whereEqualTo("type", drink.type)
-            .whereEqualTo("owner", drink.owner)
+            .whereEqualTo(NAME, drink.name)
+            .whereEqualTo(TYPE, drink.type)
+            .whereEqualTo(OWNER, drink.owner)
             .get()
             .await()
         for (document in drinkQuery) {
@@ -110,18 +118,18 @@ object DrinkCRUD {
     }
 
     private fun makeDrinkOutOfDocument(document: DocumentSnapshot): Drink {
-        val name = document.data?.get("name") as String
-        val type = document.data?.get("type") as String
-        val owner = document.data?.get("owner") as String
-        val stepsStrings = document.data?.get("steps") as MutableList<String>
+        val name = document.data?.get(NAME) as String
+        val type = document.data?.get(TYPE) as String
+        val owner = document.data?.get(OWNER) as String
+        val stepsStrings = document.data?.get(STEPS) as MutableList<String>
         val steps = stepsStrings.map { elem -> Step(elem) } as MutableList<Step>
-        val ingredientsMap = document.data?.get("ingredients") as MutableList<HashMap<String, Any>>
+        val ingredientsMap = document.data?.get(INGREDIENTS) as MutableList<HashMap<String, Any>>
         val ingredients = ingredientsMap.map { elem ->
-            val quantity = elem["quantity"]
+            val quantity = elem[QUANTITY]
             Ingredient(
-                elem.getOrDefault("name", "") as String,
+                elem.getOrDefault(NAME, "") as String,
                 if(quantity is Long) quantity.toDouble() else quantity as Double,
-                elem.getOrDefault("measurement", "") as String
+                elem.getOrDefault(MEASUREMENT, "") as String
             )
         } as MutableList<Ingredient>
         return Drink(name, type, owner, ingredients,steps)

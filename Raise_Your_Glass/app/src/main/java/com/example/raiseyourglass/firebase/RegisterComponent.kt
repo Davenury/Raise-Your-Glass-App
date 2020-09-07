@@ -43,7 +43,6 @@ object RegisterComponent {
         favoritesCollectionRef: CollectionReference,
         userCollectionRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch{
-        if(auth.currentUser == null) Log.d("Kurwa", "Jest nullem")
         auth.currentUser?.let{
             val favorites = Favorites(
                 it.uid,

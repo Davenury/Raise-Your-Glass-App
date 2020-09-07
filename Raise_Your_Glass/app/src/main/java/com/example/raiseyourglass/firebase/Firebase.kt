@@ -3,10 +3,7 @@ package com.example.raiseyourglass.firebase
 import android.content.Context
 import android.widget.TextView
 import android.widget.Toast
-import com.example.raiseyourglass.adapters.AllAvailableEventsAdapter
-import com.example.raiseyourglass.adapters.DrinksListAdapter
-import com.example.raiseyourglass.adapters.InviteUsersAdapter
-import com.example.raiseyourglass.adapters.MyEventsAdapter
+import com.example.raiseyourglass.adapters.*
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Event
 import com.google.firebase.auth.FirebaseAuth
@@ -62,6 +59,11 @@ object Firebase {
     }
 
 
+    fun getInvitedUsersData(adapter: EventParticipantsListAdapter) {
+        UsersComponent.getInvitedUserData(context, userCollectionRef, adapter)
+    }
+
+
     /**REGISTER SECTION*/
     fun registerWithEmailAndPassword(email: String, password: String){
         if(Validator.areValid(email, password)) {
@@ -81,7 +83,7 @@ object Firebase {
 
     /**PROFILE SECTION*/
     fun updateUserName(userName: String){
-        UpdateUserComponent.updateUserName(userName, context, auth)
+        UpdateUserComponent.updateUserName(userName, context, auth, userCollectionRef)
     }
 
     fun isUserLogged(): Boolean{
@@ -161,7 +163,5 @@ object Firebase {
     fun setUserToTextView(owner: String, view: TextView) {
         UsersComponent.getUserByUID(owner, context, eventsCollectionRef, view)
     }
-
-
 
 }

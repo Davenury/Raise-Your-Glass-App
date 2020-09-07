@@ -26,6 +26,16 @@ import java.util.function.ToDoubleBiFunction
 
 object EventsCRUD {
 
+    private const val PLACE = "place"
+    private const val OWNERID = "ownerID"
+    private const val ISPRIVATE = "private"
+    private const val DATE = "date"
+    private const val INVITED = "invited"
+    private const val ORDERS = "orders"
+    private const val USERID = "userID"
+    private const val PARTICIPANTS = "participants"
+    private const val COMMENTS = "comments"
+
     fun addEvent(
         event: Event,
         context: Context,
@@ -50,10 +60,10 @@ object EventsCRUD {
         eventsRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch{
         val eventQuery = eventsRef
-            .whereEqualTo("place", oldEvent.place)
-            .whereEqualTo("ownerID", oldEvent.ownerID)
-            .whereEqualTo("isPrivate", oldEvent.isPrivate)
-            .whereEqualTo("date", oldEvent.date)
+            .whereEqualTo(PLACE, oldEvent.place)
+            .whereEqualTo(OWNERID, oldEvent.ownerID)
+            .whereEqualTo(ISPRIVATE, oldEvent.isPrivate)
+            .whereEqualTo(DATE, oldEvent.date)
             .get()
             .await()
         for(event in eventQuery) {
@@ -80,10 +90,10 @@ object EventsCRUD {
         eventsRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch {
         val eventQuery = eventsRef
-            .whereEqualTo("place", event.place)
-            .whereEqualTo("ownerID", event.ownerID)
-            .whereEqualTo("private", event.isPrivate)
-            .whereEqualTo("date", event.date)
+            .whereEqualTo(PLACE, event.place)
+            .whereEqualTo(OWNERID, event.ownerID)
+            .whereEqualTo(ISPRIVATE, event.isPrivate)
+            .whereEqualTo(DATE, event.date)
             .get()
             .await()
         for (eventDoc in eventQuery) {
@@ -105,7 +115,7 @@ object EventsCRUD {
     ){
         val events = adapter.myEvents
         eventsRef
-            .whereEqualTo("ownerID", userUID)
+            .whereEqualTo(OWNERID, userUID)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
                     Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
@@ -132,7 +142,7 @@ object EventsCRUD {
         val events = adapter.eventsList
         /**if there are any public events*/
         eventsRef
-            .whereEqualTo("private", false)
+            .whereEqualTo(ISPRIVATE, false)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
                     Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
@@ -149,10 +159,9 @@ object EventsCRUD {
                 }
             }
         /**if user is invited to any events*/
-        Log.d("Kurwa", userUID!!)
         if(userUID != null) {
             eventsRef
-                .whereArrayContains("invited", userUID)
+                .whereArrayContains(INVITED, userUID)
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     firebaseFirestoreException?.let {
                         Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
@@ -162,8 +171,7 @@ object EventsCRUD {
                     querySnapshot?.let {
                         for (document in it) {
                             val event = makeEventOutOfDocument(document)
-                            Log.d("Kurwa", event.toString())
-                            events.add(event)
+                            if(!events.contains(event)) events.add(event)
                         }
                         adapter.eventsList = events
                         adapter.notifyDataSetChanged()
@@ -171,7 +179,7 @@ object EventsCRUD {
                 }
             /**if user is an owner of event*/
             eventsRef
-                .whereEqualTo("ownerID", userUID)
+                .whereEqualTo(OWNERID, userUID)
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     firebaseFirestoreException?.let {
                         Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
@@ -181,8 +189,7 @@ object EventsCRUD {
                     querySnapshot?.let {
                         for (document in it) {
                             val event = makeEventOutOfDocument(document)
-                            Log.d("Kurwa", event.toString())
-                            events.add(event)
+                            if(!events.contains(event)) events.add(event)
                         }
                         adapter.eventsList = events
                         adapter.notifyDataSetChanged()
@@ -192,24 +199,24 @@ object EventsCRUD {
     }
 
     private fun makeEventOutOfDocument(document: QueryDocumentSnapshot): Event {
-        val timestamp = document["date"] as com.google.firebase.Timestamp
+        val timestamp = document[DATE] as com.google.firebase.Timestamp
         val date = timestamp.toDate()
-        val ordersMap = document.data["orders"] as MutableList<HashMap<String, Any>>
+        val ordersMap = document.data[ORDERS] as MutableList<HashMap<String, Any>>
         val orders = ordersMap.map{elem ->
             Order(
-                elem["userID"] as String,
-                elem["orders"] as MutableList<Drink>,   //zakład, że jebnie? - jak trzeba będzie pierdolić się z kolejną mapą, to ja pierdolnę...
-                elem["comments"] as List<String>
+                elem[USERID] as String,
+                elem[ORDERS] as MutableList<Drink>,   //zakład, że jebnie? - jak trzeba będzie pierdolić się z kolejną mapą, to ja pierdolnę...
+                elem[COMMENTS] as List<String>
             )
         }.toMutableList()
         return Event(
             date,
-            document["place"] as String,
-            document["private"] as Boolean,
-            document["ownerID"] as String,
+            document[PLACE] as String,
+            document[ISPRIVATE] as Boolean,
+            document[OWNERID] as String,
             orders,
-            document["participants"] as MutableList<String>,
-            document["invited"] as MutableList<String>
+            document[PARTICIPANTS] as MutableList<String>,
+            document[INVITED] as MutableList<String>
         )
     }
 
@@ -220,17 +227,17 @@ object EventsCRUD {
         toBePrivate: Boolean
     ) = CoroutineScope(Dispatchers.IO).launch {
         val eventQuery = eventsRef
-            .whereEqualTo("place", event.place)
-            .whereEqualTo("ownerID", event.ownerID)
-            .whereEqualTo("isPrivate", event.isPrivate)
-            .whereEqualTo("date", event.date)
+            .whereEqualTo(PLACE, event.place)
+            .whereEqualTo(OWNERID, event.ownerID)
+            .whereEqualTo(ISPRIVATE, event.isPrivate)
+            .whereEqualTo(DATE, event.date)
             .get()
             .await()
         for(eventDoc in eventQuery) {
             try {
                 Firebase.firestore.runBatch { batch ->
                     val eventRef = eventsRef.document(eventDoc.id)
-                    batch.update(eventRef, "isPrivate", toBePrivate)
+                    batch.update(eventRef, ISPRIVATE, toBePrivate)
                 }.await()
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -248,16 +255,16 @@ object EventsCRUD {
         userID: String
     ) = CoroutineScope(Dispatchers.IO).launch {
         val eventQuery = eventsRef
-            .whereEqualTo("place", event.place)
-            .whereEqualTo("ownerID", event.ownerID)
-            .whereEqualTo("isPrivate", event.isPrivate)
-            .whereEqualTo("date", event.date)
+            .whereEqualTo(PLACE, event.place)
+            .whereEqualTo(OWNERID, event.ownerID)
+            .whereEqualTo(ISPRIVATE, event.isPrivate)
+            .whereEqualTo(DATE, event.date)
             .get()
             .await()
         for(eventDoc in eventQuery) {
             try {
                 eventsRef.document(eventDoc.id).update(
-                    "invited", FieldValue.arrayUnion(userID)
+                    INVITED, FieldValue.arrayUnion(userID)
                 )
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -275,11 +282,11 @@ object EventsCRUD {
         userID: String
     ) = CoroutineScope(Dispatchers.IO).launch {
         val eventQuery = eventsRef
-            .whereEqualTo("place", event.place)
-            .whereEqualTo("ownerID", event.ownerID)
-            .whereEqualTo("private", event.isPrivate)
-            .whereEqualTo("date", event.date)
-            .whereArrayContains("invited", userID)
+            .whereEqualTo(PLACE, event.place)
+            .whereEqualTo(OWNERID, event.ownerID)
+            .whereEqualTo(ISPRIVATE, event.isPrivate)
+            .whereEqualTo(DATE, event.date)
+            .whereArrayContains(INVITED, userID)
             .get()
             .await()
         Log.e("Participation",eventQuery.size().toString())
@@ -287,9 +294,9 @@ object EventsCRUD {
             try {
                 Log.e("Participation","$userID  ${event.participants.contains(userID)}")
                 if(!event.participants.contains(userID)){
-                    eventsRef.document(eventDoc.id).update("participants", FieldValue.arrayUnion(userID))
+                    eventsRef.document(eventDoc.id).update(PARTICIPANTS, FieldValue.arrayUnion(userID))
                 }else{
-                    eventsRef.document(eventDoc.id).update("participants",FieldValue.arrayRemove(userID))
+                    eventsRef.document(eventDoc.id).update(PARTICIPANTS,FieldValue.arrayRemove(userID))
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -307,16 +314,16 @@ object EventsCRUD {
         userID: String
     )= CoroutineScope(Dispatchers.IO).launch {
         val eventQuery = eventsRef
-            .whereEqualTo("place", event.place)
-            .whereEqualTo("ownerID", event.ownerID)
-            .whereEqualTo("isPrivate", event.isPrivate)
-            .whereEqualTo("date", event.date)
+            .whereEqualTo(PLACE, event.place)
+            .whereEqualTo(OWNERID, event.ownerID)
+            .whereEqualTo(ISPRIVATE, event.isPrivate)
+            .whereEqualTo(DATE, event.date)
             .get()
             .await()
         for(eventDoc in eventQuery) {
             try {
                 eventsRef.document(eventDoc.id).update(
-                    "invited", FieldValue.arrayRemove(userID)
+                    INVITED, FieldValue.arrayRemove(userID)
                 )
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

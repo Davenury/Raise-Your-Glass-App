@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import com.example.raiseyourglass.adapters.EventParticipantsListAdapter
 import com.example.raiseyourglass.adapters.InviteUsersAdapter
 import com.example.raiseyourglass.dataclasses.User
 import com.google.firebase.firestore.CollectionReference
@@ -14,6 +15,8 @@ import kotlinx.coroutines.launch
 
 object UsersComponent {
 
+    private const val USERID = "userID"
+
     fun getUserByUID(
         uid: String,
         context: Context,
@@ -21,7 +24,7 @@ object UsersComponent {
         view: TextView
     ) = CoroutineScope(Dispatchers.Default).launch{
         collectionRef
-            .whereEqualTo("userID", uid)
+            .whereEqualTo(USERID, uid)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let{
                     Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
@@ -55,10 +58,33 @@ object UsersComponent {
                 querySnapshot?.let{
                     for (document in it){
                         val user = document.toObject<User>()
-                        Log.d("Kurwa", user.toString())
                         users.add(user)
                     }
                     adapter.users = users
+                    adapter.notifyDataSetChanged()
+                }
+            }
+    }
+
+    fun getInvitedUserData(
+        context: Context,
+        userCollectionRef: CollectionReference,
+        adapter: EventParticipantsListAdapter
+    ) = CoroutineScope(Dispatchers.Default).launch {
+        val users = HashMap<String, User>()
+        userCollectionRef
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                querySnapshot?.let {
+                    for (document in it) {
+                        val user = document.toObject<User>()
+                        users[user.userID] = user
+                    }
+                    adapter.userDataList = users
                     adapter.notifyDataSetChanged()
                 }
             }

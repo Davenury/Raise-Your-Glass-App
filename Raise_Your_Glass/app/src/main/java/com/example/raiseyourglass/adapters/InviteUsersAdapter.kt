@@ -1,5 +1,6 @@
 package com.example.raiseyourglass.adapters
 
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,7 @@ class InviteUsersAdapter(
                     invitedUsersListener.onUncheckItem(currentUser.userID)
                 }
             }
+            if(currentUser.userID == Firebase.getUserId()) this.visibility = View.GONE
         }
     }
 }

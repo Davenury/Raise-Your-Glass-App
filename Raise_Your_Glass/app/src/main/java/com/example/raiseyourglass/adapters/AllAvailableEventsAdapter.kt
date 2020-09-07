@@ -40,8 +40,8 @@ class AllAvailableEventsAdapter(val setCurrentFragment: (fragment: Fragment) -> 
         status = when {
             !event.isPrivate -> "Public"
             event.ownerID == Firebase.getUserId() -> "Owner"
-            event.invited.contains(Firebase.getUserId()) -> "Private, you are invited"
             event.participants.contains(Firebase.getUserId()) -> "Private, you participate"
+            event.invited.contains(Firebase.getUserId()) -> "Private, you are invited"
             else -> ""
         }
 
