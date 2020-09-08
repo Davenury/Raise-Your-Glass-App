@@ -9,4 +9,8 @@
         <item>Long drink</item>
         <item>Shot</item>
     </array>
+    <array name="drink_choose">
+        <item>All</item>
+        <item>Favorites</item>
+    </array>
 </resources>

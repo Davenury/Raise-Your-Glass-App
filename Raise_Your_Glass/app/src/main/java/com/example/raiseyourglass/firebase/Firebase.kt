@@ -1,12 +1,15 @@
 package com.example.raiseyourglass.firebase
 
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.raiseyourglass.adapters.*
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Event
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -17,7 +20,7 @@ object Firebase {
 
 
     private val drinksCollectionRef = Firebase.firestore.collection("drinks")
-    private val favoritesCollectionRef = Firebase.firestore.collection("favorites")
+    val favoritesCollectionRef = Firebase.firestore.collection("favorites")
     private val eventsCollectionRef = Firebase.firestore.collection("events")
     private val userCollectionRef = Firebase.firestore.collection("customUsers")
 
@@ -116,6 +119,23 @@ object Firebase {
 
     fun setDrinkOwner(owner: String, view: TextView) {
         UsersComponent.getUserByUID(owner, context, userCollectionRef, view)
+    }
+
+    /**Favorites CRUD Section*/
+    fun subscribeToFavoriteDrinkSnapshotListener(adapter: DrinksListAdapter){
+        DrinkCRUD.subscribeToFavoriteDrinkSnapshotListener(context, adapter, this.getUserId())
+    }
+
+    fun addDrinkToFavorites(drink: Drink){
+        FavoritesCRUD.addDrinkToFavorites(this.getUserId()!!, drink, context, favoritesCollectionRef)
+    }
+
+    fun deleteDrinkFromFavorites(drink: Drink){
+        FavoritesCRUD.deleteDrinkFromFavorites(this.getUserId()!!, drink, context, favoritesCollectionRef)
+    }
+
+    fun setFavoriteHeart(drink: Drink, imageView: ImageView, border: Drawable, fullHeart: Drawable){
+        FavoritesCRUD.setFavoriteHeart(this.getUserId()!!, drink, context, favoritesCollectionRef, imageView, border, fullHeart)
     }
 
 
