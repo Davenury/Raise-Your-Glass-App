@@ -21,6 +21,8 @@ object DrinkCRUD {
     private const val INGREDIENTS = "ingredients"
     private const val QUANTITY = "quantity"
     private const val MEASUREMENT = "measurement"
+    private const val USERID = "userID"
+    private const val FAVORITES = "favorites"
 
     fun addDrink(
         drink: Drink,
@@ -98,6 +100,7 @@ object DrinkCRUD {
         adapter: DrinksListAdapter,
         userFilter: String?
     ) {
+        adapter.drinksList = mutableListOf()
         drinkCollectionRef
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
@@ -133,5 +136,34 @@ object DrinkCRUD {
             )
         } as MutableList<Ingredient>
         return Drink(name, type, owner, ingredients,steps)
+    }
+
+    fun subscribeToFavoriteDrinkSnapshotListener(
+        context: Context,
+        adapter: DrinksListAdapter,
+        userFilter: String?
+    ){
+        if(userFilter != null){
+            adapter.drinksList = mutableListOf()
+            Firebase.favoritesCollectionRef
+                .whereEqualTo(USERID, userFilter)
+                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    firebaseFirestoreException?.let {
+                        Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                        return@addSnapshotListener
+                    }
+
+                    querySnapshot?.let {
+                        for (document in it) {
+                            val drinksList = document.get(FAVORITES) as MutableList<HashMap<String, Any>>
+                            for (drinkMap in drinksList){
+                                val drink = Drink.fromMap(drinkMap)
+                                if(!adapter.drinksList.contains(drink)) adapter.drinksList.add(drink)
+                            }
+                        }
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+        }
     }
 }

@@ -18,10 +18,12 @@ import kotlinx.android.synthetic.main.item_drinks_list.view.tvDrinkName
 import kotlinx.android.synthetic.main.item_drinks_list.view.tvDrinkType
 import kotlinx.android.synthetic.main.item_drinks_list_with_deletion.view.*
 
-class DrinksListAdapter(val setCurrentFragment: (fragment: Fragment) -> Unit, val userFilter: String? = null) :
-    RecyclerView.Adapter<DrinksListAdapter.DrinksListViewHolder>() {
+class DrinksListAdapter(
+    val setCurrentFragment: (fragment: Fragment) -> Unit,
+    val userFilter: String? = null
+) : RecyclerView.Adapter<DrinksListAdapter.DrinksListViewHolder>() {
 
-    var drinksList: List<Drink> = listOf()
+    var drinksList: MutableList<Drink> = mutableListOf()
 
     init {
         Firebase.subscribeToDrinkSnapshotListener(this, userFilter)
@@ -78,5 +80,11 @@ class DrinksListAdapter(val setCurrentFragment: (fragment: Fragment) -> Unit, va
         return drinksList.size
     }
 
+    fun changeType(type: String){
+        when(type){
+            "Favorites" -> Firebase.subscribeToFavoriteDrinkSnapshotListener(this)
+            "All" -> Firebase.subscribeToDrinkSnapshotListener(this, userFilter)
+        }
+    }
 
 }

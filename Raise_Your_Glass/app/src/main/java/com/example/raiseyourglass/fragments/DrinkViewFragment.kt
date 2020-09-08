@@ -1,6 +1,7 @@
 package com.example.raiseyourglass.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -28,6 +29,7 @@ class DrinkViewFragment(val drink: Drink) : Fragment(R.layout.fragment_drink_vie
         Firebase.setDrinkOwner(drink.owner, tvDrinkOwner)
         setIngredients()
         setSteps()
+        setFavorite()
     }
 
     private fun setIngredients(){
@@ -72,6 +74,21 @@ class DrinkViewFragment(val drink: Drink) : Fragment(R.layout.fragment_drink_vie
             stepView.tvStepInstruction.text = step.name
 
             llDetails.addView(stepView)
+        }
+    }
+
+    private fun setFavorite(){
+        val fullHeart = resources.getDrawable(R.drawable.ic_added_favorite)
+        val border = resources.getDrawable(R.drawable.ic_favorite_border)
+        Firebase.setFavoriteHeart(drink, ivFavoriteAdder, border, fullHeart)
+
+        ivFavoriteAdder.setOnClickListener {
+            if(ivFavoriteAdder.drawable.constantState == fullHeart.constantState){
+                Firebase.deleteDrinkFromFavorites(drink)
+            }else{
+                Firebase.addDrinkToFavorites(drink)
+            }
+            Firebase.setFavoriteHeart(drink, ivFavoriteAdder, border, fullHeart)
         }
     }
 

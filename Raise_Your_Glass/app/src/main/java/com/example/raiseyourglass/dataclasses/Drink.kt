@@ -20,4 +20,28 @@ data class Drink(
         drinkMap["steps"] = steps.map{ elem -> elem.name }
         return drinkMap
     }
+
+    companion object{
+        fun fromMap(map: Map<String, Any>): Drink{
+            val name = map["name"] as String
+            val type = map["type"] as String
+            val owner = map["owner"] as String
+            val ingredientsMaps = map["ingredients"] as List<HashMap<String, Any>>
+            val ingredients = ingredientsMaps.map{ ingMap ->
+                Ingredient(
+                    ingMap["name"] as String,
+                    ingMap["quantity"] as Double,
+                    ingMap["measurement"] as String
+                )
+            } as MutableList<Ingredient>
+            val steps = map["steps"] as MutableList<String>
+            return Drink(
+                name,
+                type,
+                owner,
+                ingredients,
+                steps.map{ step -> Step(step)} as MutableList<Step>
+            )
+        }
+    }
 }
