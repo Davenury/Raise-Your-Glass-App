@@ -27,7 +27,7 @@ class MyEventsFragment(private val setCurrentFragment: (fragment:Fragment) -> Un
     }
 
     private fun setRecyclerView(){
-        val adapter = MyEventsAdapter()
+        val adapter = MyEventsAdapter(setCurrentFragment)
         rvMyEventsList.adapter = adapter
         rvMyEventsList.layoutManager = LinearLayoutManager(view?.context)
 

@@ -6,16 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.firebase.Firebase
+import com.example.raiseyourglass.fragments.EventModificationFragment
 import kotlinx.android.synthetic.main.event_item.view.*
 import kotlinx.android.synthetic.main.event_item.view.tvEventDate
 import kotlinx.android.synthetic.main.event_item.view.tvEventPlace
 import kotlinx.android.synthetic.main.item_my_event.view.*
 
-class MyEventsAdapter : RecyclerView.Adapter<MyEventsAdapter.MyEventsListViewHolder>() {
+class MyEventsAdapter(val setCurrentFragment: (fragment:Fragment) -> Unit) : RecyclerView.Adapter<MyEventsAdapter.MyEventsListViewHolder>() {
 
     var myEvents: MutableList<Event> = mutableListOf()
 
@@ -40,22 +42,34 @@ class MyEventsAdapter : RecyclerView.Adapter<MyEventsAdapter.MyEventsListViewHol
 
         holder.itemView.apply{
             this.tvEventPlace.text = event.place
-            this.tvEventDate.text = "${event.date.date}-${event.date.month + 1}-${event.date.year}"
+            val localDate = event.dateToLocalDate()
+            this.tvEventDate.text = "${localDate.dayOfMonth}-${localDate.month.value}-${localDate.year}"
             this.imDeleteEvent.setOnClickListener{
-                AlertDialog.Builder(Firebase.getContext())
-                    .setTitle("Event Deletion")
-                    .setIcon(R.drawable.ic_deletion_warning)
-                    .setMessage("Are you sure to delete this event?")
-                    .setPositiveButton("Yes, delete this event"
-                    ) { _, _ ->
-                        Firebase.deleteEvent(myEvents[position])
-                    }
-                    .setNegativeButton("No, don't delete it") { _, _ ->
-                        Toast.makeText(Firebase.getContext(), "You decided not to delete this event", Toast.LENGTH_SHORT).show()
-                    }
-                    .create()
-                    .show()
+                createAlertDialog(position).show()
             }
         }
+
+        holder.itemView.setOnClickListener {
+            val fragment = EventModificationFragment(event)
+            setCurrentFragment(fragment)
+        }
+
+
+    }
+
+
+    private fun createAlertDialog(position: Int):AlertDialog{
+        return AlertDialog.Builder(Firebase.getContext())
+            .setTitle("Event Deletion")
+            .setIcon(R.drawable.ic_deletion_warning)
+            .setMessage("Are you sure to delete this event?")
+            .setPositiveButton("Yes, delete this event"
+            ) { _, _ ->
+                Firebase.deleteEvent(myEvents[position])
+            }
+            .setNegativeButton("No, don't delete it") { _, _ ->
+                Toast.makeText(Firebase.getContext(), "You decided not to delete this event", Toast.LENGTH_SHORT).show()
+            }
+            .create()
     }
 }

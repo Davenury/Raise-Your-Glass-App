@@ -50,14 +50,17 @@ data class Event(
 
     fun toMap():Map<String,Any> {
         val eventMap = HashMap<String, Any>()
-        eventMap["date"] = dateToLocalDate()
+        eventMap["date"] = date
         eventMap["place"] = place
+        eventMap["private"] = isPrivate
         eventMap["ownerID"] = ownerID
+        eventMap["invited"] = invited
         eventMap["orders"] = orders.map{ order -> HashMap<String, Any>().apply{
             this["userID"] = order.userID
             this["comments"] = order.comments
             this["orders"] = order.orders.map { elem -> elem.toMap() }
-        } }
+        }
+        }
         return eventMap
     }
 

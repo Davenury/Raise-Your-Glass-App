@@ -47,7 +47,7 @@ object UsersComponent {
         collectionRef: CollectionReference,
         adapter: InviteUsersAdapter
     )= CoroutineScope(Dispatchers.Default).launch{
-        val users = mutableListOf<User>()
+        val users = mutableListOf<Pair<User,Boolean>>()
         collectionRef
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let{
@@ -58,8 +58,9 @@ object UsersComponent {
                 querySnapshot?.let{
                     for (document in it){
                         val user = document.toObject<User>()
-                        users.add(user)
+                        users.add(Pair(user,adapter.invited.contains(user.userID)))
                     }
+
                     adapter.users = users
                     adapter.notifyDataSetChanged()
                 }
