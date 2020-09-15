@@ -32,7 +32,6 @@ object DrinkCRUD {
         drinkCollectionRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch {
         try {
-
             drinkCollectionRef.add(drink.toMap()).await()
             withContext(Dispatchers.Main) {
                 Toast.makeText(context, "Successfully added your drink!", Toast.LENGTH_SHORT).show()
@@ -138,8 +137,6 @@ object DrinkCRUD {
                     }
 
                     val drinkList: MutableList<Drink> = mutableListOf()
-
-
 
                     querySnapshot?.let {
 

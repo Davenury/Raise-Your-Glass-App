@@ -8,10 +8,7 @@ import com.example.raiseyourglass.adapters.MyEventsAdapter
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.dataclasses.Order
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -201,22 +198,14 @@ object EventsCRUD {
     private fun makeEventOutOfDocument(document: QueryDocumentSnapshot): Event {
         val timestamp = document[DATE] as com.google.firebase.Timestamp
         val date = timestamp.toDate()
-        val ordersMap = document.data[ORDERS] as MutableList<HashMap<String, Any>>
-        val orders = ordersMap.map{elem ->
-            Order(
-                elem[USERID] as String,
-                elem[ORDERS] as MutableList<Drink>,   //zakład, że jebnie? - jak trzeba będzie pierdolić się z kolejną mapą, to ja pierdolnę...
-                elem[COMMENTS] as List<String>
-            )
-        }.toMutableList()
         return Event(
             date,
             document[PLACE] as String,
             document[ISPRIVATE] as Boolean,
             document[OWNERID] as String,
-            orders,
             document[PARTICIPANTS] as MutableList<String>,
-            document[INVITED] as MutableList<String>
+            document[INVITED] as MutableList<String>,
+            document.reference
         )
     }
 

@@ -1,5 +1,6 @@
 package com.example.raiseyourglass.dataclasses
 
+import com.google.firebase.firestore.DocumentReference
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
@@ -21,9 +22,9 @@ data class Event(
     var place: String = "",
     var isPrivate: Boolean = false,
     var ownerID: String = "",
-    var orders: MutableList<Order> = mutableListOf(),
     var participants: MutableList<String> = mutableListOf(),
-    var invited: MutableList<String> = mutableListOf()
+    var invited: MutableList<String> = mutableListOf(),
+    val documentID: DocumentReference? = null
 ) {
 
     companion object {
@@ -32,18 +33,16 @@ data class Event(
             place: String,
             isPrivate: Boolean,
             ownerID: String,
-            orders: MutableList<Order>,
             participants: MutableList<String>,
             invited: MutableList<String>
         ): Event =
-            Event(localDateToDate(date), place, isPrivate, ownerID, orders, participants, invited)
+            Event(localDateToDate(date), place, isPrivate, ownerID, participants, invited)
 
         private fun localDateToDate(localDate: LocalDate): Date = java.util.Date.from(
             localDate.atStartOfDay().atZone(
                 ZoneId.systemDefault()
             ).toInstant()
         )
-
     }
 
     fun dateToLocalDate(): LocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
@@ -55,12 +54,6 @@ data class Event(
         eventMap["private"] = isPrivate
         eventMap["ownerID"] = ownerID
         eventMap["invited"] = invited
-        eventMap["orders"] = orders.map{ order -> HashMap<String, Any>().apply{
-            this["userID"] = order.userID
-            this["comments"] = order.comments
-            this["orders"] = order.orders.map { elem -> elem.toMap() }
-        }
-        }
         return eventMap
     }
 
