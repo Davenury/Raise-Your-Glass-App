@@ -13,7 +13,6 @@ import com.example.raiseyourglass.dataclasses.Ingredient
 import com.example.raiseyourglass.dataclasses.Step
 import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.fragment_drink_modification.*
-import kotlinx.android.synthetic.main.fragment_drink_modification.view.*
 
 class DrinkModificationFragment(val drink: Drink) : Fragment(R.layout.fragment_drink_modification) {
 

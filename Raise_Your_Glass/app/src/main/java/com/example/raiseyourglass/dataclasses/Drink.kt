@@ -1,11 +1,14 @@
 package com.example.raiseyourglass.dataclasses
 
+import com.google.firebase.firestore.DocumentReference
+
 data class Drink(
     var name: String = "",
     var type: String = "",
     var owner: String = "",
     var ingredients: MutableList<Ingredient> = mutableListOf(),
-    var steps: MutableList<Step> = mutableListOf()
+    var steps: MutableList<Step> = mutableListOf(),
+    val documentID: DocumentReference? = null
 ){
     fun toMap():Map<String,Any> {
         val drinkMap = HashMap<String, Any>()
@@ -22,15 +25,16 @@ data class Drink(
     }
 
     companion object{
-        fun fromMap(map: Map<String, Any>): Drink{
+        fun fromMap(map: Map<String, Any>,documentID: DocumentReference): Drink{
             val name = map["name"] as String
             val type = map["type"] as String
             val owner = map["owner"] as String
             val ingredientsMaps = map["ingredients"] as List<HashMap<String, Any>>
             val ingredients = ingredientsMaps.map{ ingMap ->
+                val ingQuantity = ingMap["quantity"]
                 Ingredient(
                     ingMap["name"] as String,
-                    ingMap["quantity"] as Double,
+                     if(ingQuantity is Long)ingQuantity.toDouble() else ingQuantity as Double,
                     ingMap["measurement"] as String
                 )
             } as MutableList<Ingredient>
@@ -40,7 +44,8 @@ data class Drink(
                 type,
                 owner,
                 ingredients,
-                steps.map{ step -> Step(step)} as MutableList<Step>
+                steps.map{ step -> Step(step)} as MutableList<Step>,
+                documentID
             )
         }
     }

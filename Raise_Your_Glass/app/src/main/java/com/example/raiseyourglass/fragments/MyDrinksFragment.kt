@@ -1,20 +1,14 @@
 package com.example.raiseyourglass.fragments
 
-import android.app.ProgressDialog.show
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.dataclasses.Drink
-import com.example.raiseyourglass.dialogs.InviteUsersSheetDialog
 import com.example.raiseyourglass.firebase.Firebase
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.fragment_my_drinks.*
-import kotlinx.android.synthetic.main.fragment_my_events.*
 
 
 class MyDrinksFragment(private val setCurrentFragment: (fragment:Fragment) -> Unit) : Fragment(R.layout.fragment_my_drinks) {

@@ -1,14 +1,16 @@
 package com.example.raiseyourglass.firebase
 
 import android.content.Context
+import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.dataclasses.Drink
-import com.example.raiseyourglass.dataclasses.Ingredient
-import com.example.raiseyourglass.dataclasses.Step
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.model.Document
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
@@ -111,7 +113,7 @@ object DrinkCRUD {
                 querySnapshot?.let {
                     val drinks = mutableListOf<Drink>()
                     for (document in it) {
-                        val drink = makeDrinkOutOfDocument(document)
+                        val drink = Drink.fromMap(document.data, document.reference)
                         if (userFilter == null || drink.owner == userFilter) drinks.add(drink)
                     }
                     adapter.drinksList = drinks
@@ -120,30 +122,12 @@ object DrinkCRUD {
             }
     }
 
-    private fun makeDrinkOutOfDocument(document: DocumentSnapshot): Drink {
-        val name = document.data?.get(NAME) as String
-        val type = document.data?.get(TYPE) as String
-        val owner = document.data?.get(OWNER) as String
-        val stepsStrings = document.data?.get(STEPS) as MutableList<String>
-        val steps = stepsStrings.map { elem -> Step(elem) } as MutableList<Step>
-        val ingredientsMap = document.data?.get(INGREDIENTS) as MutableList<HashMap<String, Any>>
-        val ingredients = ingredientsMap.map { elem ->
-            val quantity = elem[QUANTITY]
-            Ingredient(
-                elem.getOrDefault(NAME, "") as String,
-                if(quantity is Long) quantity.toDouble() else quantity as Double,
-                elem.getOrDefault(MEASUREMENT, "") as String
-            )
-        } as MutableList<Ingredient>
-        return Drink(name, type, owner, ingredients,steps)
-    }
-
     fun subscribeToFavoriteDrinkSnapshotListener(
         context: Context,
         adapter: DrinksListAdapter,
         userFilter: String?
-    ){
-        if(userFilter != null){
+    ) {
+        if (userFilter != null) {
             adapter.drinksList = mutableListOf()
             Firebase.favoritesCollectionRef
                 .whereEqualTo(USERID, userFilter)
@@ -153,15 +137,36 @@ object DrinkCRUD {
                         return@addSnapshotListener
                     }
 
+                    val drinkList: MutableList<Drink> = mutableListOf()
+
+
+
                     querySnapshot?.let {
-                        for (document in it) {
-                            val drinksList = document.get(FAVORITES) as MutableList<HashMap<String, Any>>
-                            for (drinkMap in drinksList){
-                                val drink = Drink.fromMap(drinkMap)
-                                if(!adapter.drinksList.contains(drink)) adapter.drinksList.add(drink)
+
+                        CoroutineScope(Dispatchers.Default).launch {
+                            for (document in it) {
+                                val drinksList =
+                                    document.get(FAVORITES) as MutableList<DocumentReference>
+                                for (drinkMap in drinksList) {
+
+                                    val drinkDocument = drinkMap.get().await()
+
+                                    val drink = Drink.fromMap(
+                                        drinkDocument.data as Map<String, Any>,
+                                        drinkDocument.reference
+                                    )
+                                    Log.e("drink:", drink.toString())
+                                    drinkList.add(drink)
+                                }
+                                adapter.drinksList = drinkList
+                                Log.e("drinkList: ", drinkList.toString())
+                            }
+                            withContext(Dispatchers.Main) {
+                                adapter.drinksList = drinkList
+                                Log.e("List length", adapter.drinksList.toString())
+                                adapter.notifyDataSetChanged()
                             }
                         }
-                        adapter.notifyDataSetChanged()
                     }
                 }
         }
