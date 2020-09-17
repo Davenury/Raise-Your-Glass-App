@@ -4,8 +4,11 @@ import android.content.Context
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.example.raiseyourglass.adapters.DrinksListAdapter
+import com.example.raiseyourglass.adapters.OrderDrinksAdapter
 import com.example.raiseyourglass.dataclasses.Drink
+import com.example.raiseyourglass.dataclasses.Order
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -98,10 +101,13 @@ object DrinkCRUD {
     fun subscribeToDrinkSnapshotListener(
         context: Context,
         drinkCollectionRef: CollectionReference,
-        adapter: DrinksListAdapter,
+        adapter: Any,
         userFilter: String?
     ) {
-        adapter.drinksList = mutableListOf()
+        if(adapter is DrinksListAdapter)
+            adapter.drinksList = mutableListOf()
+        if(adapter is OrderDrinksAdapter)
+            adapter.drinksList = mutableListOf()
         drinkCollectionRef
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
@@ -115,8 +121,14 @@ object DrinkCRUD {
                         val drink = Drink.fromMap(document.data, document.reference)
                         if (userFilter == null || drink.owner == userFilter) drinks.add(drink)
                     }
-                    adapter.drinksList = drinks
-                    adapter.notifyDataSetChanged()
+                    if(adapter is DrinksListAdapter) {
+                        adapter.drinksList = drinks
+                        adapter.notifyDataSetChanged()
+                    }
+                    if(adapter is OrderDrinksAdapter){
+                        adapter.drinksList = drinks
+                        adapter.notifyDataSetChanged()
+                    }
                 }
             }
     }

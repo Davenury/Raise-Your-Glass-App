@@ -10,7 +10,7 @@ import com.example.raiseyourglass.dataclasses.User
 import com.example.raiseyourglass.firebase.Firebase
 import kotlinx.android.synthetic.main.item_invite_user.view.*
 
-class InviteUsersAdapter(val invited: MutableList<String> = mutableListOf<String>()) : RecyclerView.Adapter<InviteUsersAdapter.InviteUserHolder>() {
+class InviteUsersAdapter(val invited: MutableList<String> = mutableListOf()) : RecyclerView.Adapter<InviteUsersAdapter.InviteUserHolder>() {
 
     var users:MutableList<Pair<User,Boolean>> = mutableListOf()
     inner class InviteUserHolder(itemView: View) :  RecyclerView.ViewHolder(itemView)

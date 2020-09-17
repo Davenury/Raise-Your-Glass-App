@@ -2,12 +2,14 @@ package com.example.raiseyourglass.firebase
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.raiseyourglass.adapters.*
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Event
+import com.example.raiseyourglass.dataclasses.Order
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -23,6 +25,7 @@ object Firebase {
     val favoritesCollectionRef = Firebase.firestore.collection("favorites")
     private val eventsCollectionRef = Firebase.firestore.collection("events")
     private val userCollectionRef = Firebase.firestore.collection("customUsers")
+    private val ordersCollectionRef = Firebase.firestore.collection("orders")
 
     fun setContext(context: Context){
         this.context = context
@@ -113,7 +116,7 @@ object Firebase {
         DrinkCRUD.deleteDrink(drink, context, drinksCollectionRef)
     }
 
-    fun subscribeToDrinkSnapshotListener(adapter: DrinksListAdapter, userFilter:String?){
+    fun subscribeToDrinkSnapshotListener(adapter: Any, userFilter:String?){
         DrinkCRUD.subscribeToDrinkSnapshotListener(context, drinksCollectionRef, adapter, userFilter)
     }
 
@@ -184,4 +187,40 @@ object Firebase {
         UsersComponent.getUserByUID(owner, context, eventsCollectionRef, view)
     }
 
+    /**Orders Section*/
+    fun addOrder(order: Order){
+        OrdersCRUD.addOrder(context, ordersCollectionRef, order)
+    }
+
+    fun deleteOrder(order: Order){
+        OrdersCRUD.deleteOrder(context, ordersCollectionRef, order)
+    }
+
+    fun addDrinkToOrder(order: Order, drink: Drink){
+        OrdersCRUD.addDrink(context, ordersCollectionRef, order, drink)
+    }
+
+    fun deleteDrinkFromOrder(order: Order, drink: Drink){
+        OrdersCRUD.deleteDrink(context, ordersCollectionRef, order, drink)
+    }
+
+    fun addCommentToOrder(order: Order, comment: String){
+        OrdersCRUD.addComment(context, ordersCollectionRef, order, comment)
+    }
+
+    fun deleteCommentFromOrder(order: Order, comment: String){
+        OrdersCRUD.deleteComment(context, ordersCollectionRef, order, comment)
+    }
+
+    fun getAllOrdersFromEvent(event: Event){
+        OrdersCRUD.getAllOrdersFromEvent(context, ordersCollectionRef, event.documentID!!.id)
+    }
+
+    fun getAllDrinksFromOrder(event: Event, adapter: Any){
+        OrdersCRUD.getAllDrinksFromOrder(context, ordersCollectionRef, event.documentID!!.id, this.getUserId()!!, adapter)
+    }
+
+    fun setCommentFromOrderToTextView(event: Event, textView: EditText){
+        OrdersCRUD.setCommentFromOrderToTextView(context, ordersCollectionRef, event.documentID!!.id, this.getUserId()!!, textView)
+    }
 }

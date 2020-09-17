@@ -2,7 +2,11 @@ package com.example.raiseyourglass.firebase
 
 import android.content.Context
 import android.util.Log
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import com.example.raiseyourglass.adapters.OrderDrinksAdapter
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Order
 import com.google.firebase.firestore.CollectionReference
@@ -19,7 +23,7 @@ object OrdersCRUD {
     private const val USERID = "userID"
     private const val EVENTID = "eventID"
     private const val DRINKS = "drinksOrders"
-    private const val COMMENTS = "comments"
+    private const val COMMENT = "comment"
 
     fun addOrder(
         context: Context,
@@ -27,7 +31,33 @@ object OrdersCRUD {
         order: Order
     ) = CoroutineScope(Dispatchers.IO).launch{
         try{
+            Log.d("Orders", "In add Order Function")
             ordersCollection.add(order)
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "Successfully added your order!", Toast.LENGTH_SHORT).show()
+            }
+        } catch(e: Exception){
+            withContext(Dispatchers.Main){
+                Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    fun deleteOrder(
+        context: Context,
+        ordersCollection: CollectionReference,
+        order: Order
+    )=  CoroutineScope(Dispatchers.IO).launch{
+        try{
+            Log.d("Orders", "In delete Order Function")
+            val col = ordersCollection
+                .whereEqualTo(EVENTID, order.eventID)
+                .whereEqualTo(USERID, order.userID)
+                .get()
+                .await()
+            for(doc in col){
+                ordersCollection.document(doc.id).delete().await()
+            }
             withContext(Dispatchers.Main) {
                 Toast.makeText(context, "Successfully added your order!", Toast.LENGTH_SHORT).show()
             }
@@ -100,7 +130,7 @@ object OrdersCRUD {
                 .await()
             for(doc in ordersQuery){
                 ordersCollection.document(doc.id).update(
-                    COMMENTS, FieldValue.arrayUnion(comment)
+                    COMMENT, FieldValue.arrayUnion(comment)
                 )
             }
         } catch(e: Exception){
@@ -124,7 +154,7 @@ object OrdersCRUD {
                 .await()
             for(doc in ordersQuery){
                 ordersCollection.document(doc.id).update(
-                    COMMENTS, FieldValue.arrayRemove(comment)
+                    COMMENT, FieldValue.arrayRemove(comment)
                 )
             }
         } catch(e: Exception){
@@ -137,10 +167,32 @@ object OrdersCRUD {
     fun getAllOrdersFromEvent(
         context: Context,
         ordersCollection: CollectionReference,
-        eventID: String     //in Firebase Object this will need to be a event.documentID.id or something like that
+        eventID: String
     ){
         ordersCollection
             .whereEqualTo(EVENTID, eventID)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                querySnapshot?.let{
+                    //here just list of orders
+                }
+            }
+    }
+
+    fun getAllDrinksFromOrder(
+        context: Context,
+        ordersCollection: CollectionReference,
+        eventID: String,
+        userID: String,
+        adapter: Any
+    ){
+        ordersCollection
+            .whereEqualTo(EVENTID, eventID)
+            .whereEqualTo(USERID, userID)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
                     Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
@@ -162,17 +214,43 @@ object OrdersCRUD {
                                     drinkDocument.data as Map<String, Any>,
                                     drinkDocument.reference
                                 )
-                                Log.e("drink:", drink.toString())
                                 drinkList.add(drink)
                             }
-                            //adapter.drinksList = drinkList
+                            if(adapter is OrderDrinksAdapter)
+                                adapter.drinksOrdersAlreadyMade = drinkList
                             Log.e("drinkList: ", drinkList.toString())
                         }
                         withContext(Dispatchers.Main) {
-                            //adapter.drinksList = drinkList
-                            //Log.e("List length", adapter.drinksList.toString())
-                            //adapter.notifyDataSetChanged()
+                            if(adapter is OrderDrinksAdapter) {
+                                adapter.drinksOrdersAlreadyMade = drinkList
+                                adapter.notifyDataSetChanged()
+                            }
                         }
+                    }
+                }
+            }
+    }
+
+    fun setCommentFromOrderToTextView(
+        context: Context,
+        ordersCollection: CollectionReference,
+        eventID: String,
+        userID: String,
+        textView: EditText
+    ){
+        ordersCollection
+            .whereEqualTo(EVENTID, eventID)
+            .whereEqualTo(USERID, userID)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                querySnapshot?.let {
+                    for(orderDoc in it){
+                        val comment = orderDoc.get(COMMENT) as String
+                        textView.setText(comment)
                     }
                 }
             }
