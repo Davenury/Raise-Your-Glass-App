@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.raiseyourglass.adapters.OrderDrinksAdapter
+import com.example.raiseyourglass.adapters.OwnerOrdersDetailsAdapter
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Order
 import com.google.firebase.firestore.CollectionReference
@@ -64,6 +65,26 @@ object OrdersCRUD {
         } catch(e: Exception){
             withContext(Dispatchers.Main){
                 Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    fun deleteAllOrdersFromEvent(
+        context: Context,
+        ordersCollection: CollectionReference,
+        eventID: String
+    ) = CoroutineScope(Dispatchers.IO).launch{
+        val ordersSnap = ordersCollection
+            .whereEqualTo(EVENTID, eventID)
+            .get()
+            .await()
+        for (order in ordersSnap){
+            try{
+                ordersCollection.document(order.id).delete().await()
+            } catch(e: Exception){
+                withContext(Dispatchers.Main){
+                    Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
@@ -251,6 +272,55 @@ object OrdersCRUD {
                     for(orderDoc in it){
                         val comment = orderDoc.get(COMMENT) as String
                         textView.setText(comment)
+                    }
+                }
+            }
+    }
+
+    fun setAllDrinksFromEventToPairs(
+        context: Context,
+        ordersCollection: CollectionReference,
+        eventID: String,
+        adapter: Any
+    ){
+        ordersCollection
+            .whereEqualTo(EVENTID, eventID)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+                var documentReferences: MutableList<DocumentReference>
+                val drinks = mutableListOf<Drink>()
+                val pairsList = mutableListOf<Pair<Drink, Int>>()
+                if(adapter is OwnerOrdersDetailsAdapter){
+                    querySnapshot?.let{
+                        CoroutineScope(Dispatchers.IO).launch{
+                            for(document in it){
+                                documentReferences = document.get(DRINKS) as MutableList<DocumentReference>
+                                for (drinkMap in documentReferences) {
+
+                                    val drinkDocument = drinkMap.get().await()
+
+                                    val drink = Drink.fromMap(
+                                        drinkDocument.data as Map<String, Any>,
+                                        drinkDocument.reference
+                                    )
+                                    drinks.add(drink)
+                                }
+                            }
+                            for(drink in drinks) {
+                                if(pairsList.count { elem -> elem.first.name == drink.name } == 0)
+                                    pairsList.add(Pair(
+                                        drink,
+                                        drinks.count { elem -> elem.name == drink.name }
+                                    ))
+                            }
+                            withContext(Dispatchers.Main) {
+                                adapter.pairList = pairsList
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
                     }
                 }
             }

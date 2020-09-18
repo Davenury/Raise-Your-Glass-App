@@ -1,6 +1,5 @@
 package com.example.raiseyourglass.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,6 @@ import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.firebase.Firebase
 import com.example.raiseyourglass.fragments.EventViewFragment
 import kotlinx.android.synthetic.main.event_item.view.*
-import java.time.ZoneId
-import java.util.*
 
 class AllAvailableEventsAdapter(val setCurrentFragment: (fragment: Fragment) -> Unit
 ) : RecyclerView.Adapter<AllAvailableEventsAdapter.AllAvailableEventsHolder>() {
@@ -53,7 +50,7 @@ class AllAvailableEventsAdapter(val setCurrentFragment: (fragment: Fragment) -> 
                 "${localDate.year}-${localDate.month.value}-${localDate.dayOfMonth}"
         }
 
-        val eventFragment = EventViewFragment(eventsList[position])
+        val eventFragment = EventViewFragment(eventsList[position], setCurrentFragment)
 
         holder.itemView.setOnClickListener {
             setCurrentFragment(eventFragment)

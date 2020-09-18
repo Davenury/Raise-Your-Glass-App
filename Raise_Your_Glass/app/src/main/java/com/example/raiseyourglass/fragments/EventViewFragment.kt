@@ -7,21 +7,19 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.raiseyourglass.R
-import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.adapters.EventParticipantsListAdapter
-import com.example.raiseyourglass.adapters.InviteUsersAdapter
 import com.example.raiseyourglass.adapters.OrderDrinksAdapter
 import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.dataclasses.Order
 import com.example.raiseyourglass.firebase.Firebase
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.bottom_sheet_make_order.*
 import kotlinx.android.synthetic.main.bottom_sheet_make_order.view.*
-import kotlinx.android.synthetic.main.fragment_event_modification.*
 import kotlinx.android.synthetic.main.fragment_event_view.*
-import kotlinx.android.synthetic.main.invite_users_bottom_sheet.view.*
 
-class EventViewFragment(val event: Event) : Fragment(R.layout.fragment_event_view) {
+class EventViewFragment(
+    val event: Event,
+    val setCurrentFragment: (fragment: Fragment) -> Unit
+) : Fragment(R.layout.fragment_event_view) {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,7 +74,8 @@ class EventViewFragment(val event: Event) : Fragment(R.layout.fragment_event_vie
 
     private fun setButtonMakeOrderForOwner(){
         btnMakeOrder.setOnClickListener {
-            Toast.makeText(activity!!, "Here will be displayed all of the actual orders", Toast.LENGTH_SHORT).show()
+            val fragment = OrdersDetailsFragment(event, setCurrentFragment)
+            setCurrentFragment(fragment)
         }
     }
 

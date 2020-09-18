@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.adapters.OrderDrinksAdapter
+import com.example.raiseyourglass.adapters.OwnerOrdersDetailsAdapter
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Order
 import com.google.firebase.firestore.CollectionReference

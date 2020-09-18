@@ -156,6 +156,7 @@ object Firebase {
     }
 
     fun deleteEvent(event: Event){
+        this.deleteAllOrdersFromEvent(event)
         EventsCRUD.deleteEvent(event, context, eventsCollectionRef)
     }
 
@@ -222,5 +223,13 @@ object Firebase {
 
     fun setCommentFromOrderToTextView(event: Event, textView: EditText){
         OrdersCRUD.setCommentFromOrderToTextView(context, ordersCollectionRef, event.documentID!!.id, this.getUserId()!!, textView)
+    }
+
+    fun deleteAllOrdersFromEvent(event: Event){
+        OrdersCRUD.deleteAllOrdersFromEvent(context, ordersCollectionRef, event.documentID!!.id)
+    }
+
+    fun setAllDrinksFromEventToPairs(event: Event, adapter: Any){
+        OrdersCRUD.setAllDrinksFromEventToPairs(context, ordersCollectionRef, event.documentID!!.id, adapter)
     }
 }

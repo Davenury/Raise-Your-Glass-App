@@ -19,9 +19,6 @@ class EventsListFragment(private val setCurrentFragment: (fragment:Fragment) -> 
         super.onViewCreated(view, savedInstanceState)
 
         setRecyclerView()
-        btnShowEvents.setOnClickListener {
-            //Log.d("Kurwa", "${rvEvents.adapter?.itemCount}")
-        }
     }
 
     private fun setRecyclerView() {
