@@ -2,6 +2,7 @@ package com.example.raiseyourglass.firebase
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -231,5 +232,18 @@ object Firebase {
 
     fun setAllDrinksFromEventToPairs(event: Event, adapter: Any){
         OrdersCRUD.setAllDrinksFromEventToPairs(context, ordersCollectionRef, event.documentID!!.id, adapter)
+    }
+
+    /**Drinks Images Section*/
+    fun setImageToView(filename: String, imageView: ImageView){
+        DrinksImages.setImageToView(filename, context, imageView)
+    }
+
+    fun uploadImageToStorage(filename: String, currentFile: Uri){
+        DrinksImages.uploadImageToStorage(filename, currentFile, context)
+    }
+
+    fun deleteImageFromStorage(filename: String){
+        DrinksImages.deleteImageFromStorage(filename, context)
     }
 }

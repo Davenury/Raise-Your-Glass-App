@@ -10,6 +10,11 @@ data class Drink(
     var steps: MutableList<Step> = mutableListOf(),
     val documentID: DocumentReference? = null
 ){
+
+    fun getImagePath(): String{
+        return name + owner
+    }
+
     fun toMap():Map<String,Any> {
         val drinkMap = HashMap<String, Any>()
         drinkMap["name"] = name

@@ -26,7 +26,7 @@ class StartActivity : AppCompatActivity() {
         val myDrinkFragment = MyDrinksFragment(lambdaSetCurrentFragment)
         val eventsListFragment = EventsListFragment(lambdaSetCurrentFragment)
         val myEvents = MyEventsFragment(lambdaSetCurrentFragment)
-        val settingsFragment = SettingsFragment { finish() }
+        val settingsFragment = SettingsFragment(bottomNavigationView) { finish() }
 
         setCurrentFragment(drinkListFragment)
 
@@ -40,12 +40,17 @@ class StartActivity : AppCompatActivity() {
             }
             true
         }
-
     }
 
     override fun onStart() {
         super.onStart()
         Firebase.setContext(this)
+        if(Firebase.getUserName() == null || Firebase.getUserName() == ""){
+            bottomNavigationView.getOrCreateBadge(R.id.miSettings).apply{
+                number = 1
+                isVisible = true
+            }
+        }
     }
 
     private fun setCurrentFragment(fragment: Fragment) {

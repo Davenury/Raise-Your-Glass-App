@@ -14,6 +14,7 @@ import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.firebase.Firebase
 import com.example.raiseyourglass.fragments.DrinkViewFragment
 import com.example.raiseyourglass.fragments.OwnDrinkFragment
+import kotlinx.android.synthetic.main.item_drinks_list.view.*
 import kotlinx.android.synthetic.main.item_drinks_list.view.tvDrinkName
 import kotlinx.android.synthetic.main.item_drinks_list.view.tvDrinkType
 import kotlinx.android.synthetic.main.item_drinks_list_with_deletion.view.*
@@ -42,8 +43,11 @@ class DrinksListAdapter(
     override fun onBindViewHolder(holder: DrinksListViewHolder, position: Int) {
         holder.itemView.apply {
             tvDrinkName.text = drinksList[position].name
-//          if change to enum  tvDrinkType.text = drinksList[position].type.name
             tvDrinkType.text = drinksList[position].type
+            if(userFilter == null)  // means that it's item_drinks_list
+                Firebase.setImageToView(drinksList[position].getImagePath(), ivDrinkItemDrinkImage)
+            else
+                Firebase.setImageToView(drinksList[position].getImagePath(), ivDrinkItemDrinkImageDelete)
         }
 
         val drinkFragment =

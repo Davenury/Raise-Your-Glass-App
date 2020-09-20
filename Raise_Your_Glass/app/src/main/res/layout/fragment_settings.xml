@@ -69,8 +69,10 @@
           android:layout_height="wrap_content"
           android:layout_marginTop="24dp"
           android:text="Display UID"
-          app:layout_constraintTop_toBottomOf="@+id/btnSaveChangedName"
-          tools:layout_editor_absoluteX="143dp" />
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.5"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/btnSaveChangedName" />
 
       <TextView
           android:id="@+id/tvUID"
@@ -78,7 +80,9 @@
           android:layout_height="wrap_content"
           android:layout_marginTop="16dp"
           android:text="UID"
-          app:layout_constraintTop_toBottomOf="@+id/btnDisplayUID"
-          tools:layout_editor_absoluteX="194dp" />
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.5"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/btnDisplayUID" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
