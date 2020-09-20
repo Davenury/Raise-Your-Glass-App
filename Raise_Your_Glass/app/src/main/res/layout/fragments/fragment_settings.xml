@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.SettingsFragment">
+
+      <Button
+          android:id="@+id/btnLogout"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Logout"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.5"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <Switch
+          android:id="@+id/switchDarkMode"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="24dp"
+          android:text="DarkMode"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.5"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
+
+      <EditText
+          android:id="@+id/etNewName"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="24dp"
+          android:ems="10"
+          android:inputType="textPersonName"
+          android:text="Name"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.5"
+          app:layout_constraintStart_toEndOf="@+id/tvUserName"
+          app:layout_constraintTop_toBottomOf="@+id/switchDarkMode" />
+
+      <TextView
+          android:id="@+id/tvUserName"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="New User Name"
+          android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+          app:layout_constraintBottom_toBottomOf="@+id/etNewName"
+          app:layout_constraintEnd_toStartOf="@+id/etNewName"
+          app:layout_constraintHorizontal_bias="0.5"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="@+id/etNewName" />
+
+      <Button
+          android:id="@+id/btnSaveChangedName"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:text="Save changes"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.5"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/etNewName" />
+
+      <Button
+          android:id="@+id/btnDisplayUID"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="24dp"
+          android:text="Display UID"
+          app:layout_constraintTop_toBottomOf="@+id/btnSaveChangedName"
+          tools:layout_editor_absoluteX="143dp" />
+
+      <TextView
+          android:id="@+id/tvUID"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:text="UID"
+          app:layout_constraintTop_toBottomOf="@+id/btnDisplayUID"
+          tools:layout_editor_absoluteX="194dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

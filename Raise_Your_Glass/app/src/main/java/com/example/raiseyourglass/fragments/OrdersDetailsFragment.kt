@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_orders_details.*
 class OrdersDetailsFragment(
     var event: Event,
     var setCurrentFragment: (fragment: Fragment) -> Unit
-) : Fragment(R.layout.fragment_orders_details) 
+) : Fragment(R.layout.fragment_orders_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +35,7 @@ class OrdersDetailsFragment(
 
     private fun setShoppingListButton(){
         btnShoppingList.setOnClickListener {
-            Toast.makeText(context, "HAHAHAHAHAHAH", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "This functionality isn't made yet ^^", Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -3,38 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
-    android:background="@drawable/drink_item_background"
-    android:padding="16dp"
-    android:layout_margin="8dp">
-
-    <ImageView
-        android:id="@+id/ivDrinkItemDrinkImage"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:scaleType="centerInside"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="100dp"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/tvDrinkName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Drink Name"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvDrinkType"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivDrinkItemDrinkImage" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvDrinkType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="Drink type"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDrinkName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivDrinkItemDrinkImage" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvDrinkName"
+        app:layout_constraintTop_toTopOf="@+id/tvDrinkName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
