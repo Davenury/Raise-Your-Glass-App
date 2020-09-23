@@ -13,4 +13,11 @@
         <item>All</item>
         <item>Favorites</item>
     </array>
+    <array name="events_types">
+        <item>All</item>
+        <item>Public</item>
+        <item>Invited</item>
+        <item>Participant</item>
+        <item>Owner</item>
+    </array>
 </resources>

@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.firebase.Firebase
 import com.example.raiseyourglass.firebase.Validator
+import com.example.raiseyourglass.other_useful_things.ImageBlurer
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -30,6 +31,7 @@ class RegisterActivity : AppCompatActivity() {
                 startActivity(this)
             }
         }
+        ImageBlurer.setImageToBlur(ivRegisterBackground, R.drawable.drinks_background, this)
     }
 
     private fun setListeners() {
@@ -41,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setAlreadyRegisteredListener() {
-        tvAlreadyRegistered.setOnClickListener {
+        btnLoginFromRegister.setOnClickListener {
             Intent(this, LoginActivity::class.java).apply {
                 startActivity(this)
             }

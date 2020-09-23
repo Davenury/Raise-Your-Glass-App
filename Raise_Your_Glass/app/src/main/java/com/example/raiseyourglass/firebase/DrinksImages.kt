@@ -2,6 +2,7 @@ package com.example.raiseyourglass.firebase
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import com.google.firebase.ktx.Firebase
@@ -31,9 +32,7 @@ object DrinksImages {
                 imageView.setImageBitmap(bitmap)
             }
         } catch(e: Exception){
-            withContext(Dispatchers.Main){
-                Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
-            }
+            Log.d("Drinks Images", e.message!!)
         }
     }
 

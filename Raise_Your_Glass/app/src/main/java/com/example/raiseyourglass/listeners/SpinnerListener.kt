@@ -1,5 +1,5 @@
 package com.example.raiseyourglass.listeners
 
-interface FavoritesSpinnerListener {
+interface SpinnerListener {
     fun onItemChanged(type: String)
 }

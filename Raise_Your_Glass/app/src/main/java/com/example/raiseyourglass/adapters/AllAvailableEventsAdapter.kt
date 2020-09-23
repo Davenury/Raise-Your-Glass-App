@@ -1,5 +1,6 @@
 package com.example.raiseyourglass.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ class AllAvailableEventsAdapter(val setCurrentFragment: (fragment: Fragment) -> 
     inner class AllAvailableEventsHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     var eventsList: MutableList<Event> = mutableListOf()
+    var constantEventsList: MutableList<Event> = mutableListOf()
 
     init {
         Firebase.subscribeToAllEventsListener(this)
@@ -45,6 +47,7 @@ class AllAvailableEventsAdapter(val setCurrentFragment: (fragment: Fragment) -> 
         holder.itemView.apply {
             this.tvEventStatus.text = status
             this.tvEventPlace.text = event.place
+            Firebase.setDrinkOwner(event.ownerID, this.tvEventOwner)
             val localDate = event.dateToLocalDate()
             this.tvEventDate.text =
                 "${localDate.year}-${localDate.month.value}-${localDate.dayOfMonth}"
@@ -55,5 +58,28 @@ class AllAvailableEventsAdapter(val setCurrentFragment: (fragment: Fragment) -> 
         holder.itemView.setOnClickListener {
             setCurrentFragment(eventFragment)
         }
+    }
+
+    fun changeType(type: String){
+        eventsList = constantEventsList
+        eventsList = eventsList.filter { event -> filterFunction(event, type) } as MutableList<Event>
+        this.notifyDataSetChanged()
+    }
+
+    private fun filterFunction(event: Event, type: String): Boolean{
+        if(type == "All") return true
+        if(type == "Public"){
+            return !event.isPrivate
+        }
+        if(type == "Invited"){
+            return event.invited.contains(Firebase.getUserId())
+        }
+        if(type == "Participant"){
+            return event.participants.contains(Firebase.getUserId())
+        }
+        if(type == "Owner"){
+            return event.ownerID == Firebase.getUserId()
+        }
+        return false
     }
 }

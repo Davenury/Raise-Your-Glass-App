@@ -35,6 +35,8 @@
           android:ems="10"
           android:inputType="textPersonName"
           android:text="Name"
+          android:background="@color/edit_text_background"
+          android:padding="8dp"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintHorizontal_bias="0.5"
           app:layout_constraintStart_toEndOf="@+id/tvUserName"

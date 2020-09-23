@@ -9,10 +9,13 @@ android {
 
     defaultConfig {
         applicationId "com.example.raiseyourglass"
-        minSdkVersion 26
+        minSdkVersion 29
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+
+        renderscriptTargetApi 30
+        renderscriptSupportModeEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,5 +53,8 @@ dependencies {
 
     testImplementation 'com.google.truth:truth:1.0.1'
     androidTestImplementation 'com.google.truth:truth:1.0.1'
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'jp.wasabeef:glide-transformations:4.2.0'
 
 }

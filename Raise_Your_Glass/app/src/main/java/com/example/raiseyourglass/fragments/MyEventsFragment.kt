@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.raiseyourglass.R
+import com.example.raiseyourglass.activities.StartActivity
 import com.example.raiseyourglass.adapters.MyEventsAdapter
 import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.firebase.Firebase
@@ -14,9 +15,15 @@ import kotlinx.android.synthetic.main.fragment_my_events.*
 import java.time.LocalDate
 import java.util.*
 
-class MyEventsFragment(private val setCurrentFragment: (fragment:Fragment) -> Unit) : Fragment(R.layout.fragment_my_events) {
+class MyEventsFragment : Fragment(R.layout.fragment_my_events) {
+
+    private var setCurrentFragment: (fragment: Fragment) -> Unit = { _ -> null }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val activity = activity as StartActivity
+        setCurrentFragment = activity.lambdaSetCurrentFragment
 
         btnAddEvent.setOnClickListener {
             val modificationFragment = EventModificationFragment()

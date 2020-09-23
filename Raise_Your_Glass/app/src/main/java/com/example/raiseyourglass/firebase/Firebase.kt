@@ -186,7 +186,7 @@ object Firebase {
     }
 
     fun setUserToTextView(owner: String, view: TextView) {
-        UsersComponent.getUserByUID(owner, context, eventsCollectionRef, view)
+        UsersComponent.getUserByUID(owner, context, userCollectionRef, view)
     }
 
     /**Orders Section*/

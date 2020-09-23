@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.raiseyourglass.R
+import com.example.raiseyourglass.activities.StartActivity
 import com.example.raiseyourglass.adapters.InviteUsersAdapter
 import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.firebase.Firebase
@@ -48,12 +49,12 @@ class EventModificationFragment(val event: Event = Event(ownerID = Firebase.getU
         ivDatePicker.setOnClickListener {
             val dialog = DatePickerDialog(
                 activity!!,
-                DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+                DatePickerDialog.OnDateSetListener { _, year, month, day ->
                     val now = Calendar.getInstance()
                     calendar.set(Calendar.YEAR, year)
                     calendar.set(Calendar.MONTH, month)
                     calendar.set(Calendar.DAY_OF_MONTH, day)
-                    if (calendar.before(now)) {
+                    if (calendar.before(now.get(Calendar.DATE))) {
                         Toast.makeText(
                             activity,
                             "Please, select today or further days",
@@ -101,6 +102,7 @@ class EventModificationFragment(val event: Event = Event(ownerID = Firebase.getU
             event.isPrivate = cbIsEventPrivate.isChecked
             if (startVersionOfEvent.place=="") Firebase.addEvent(event)
             else Firebase.updateEvent(startVersionOfEvent, event.toMap())
+            activity!!.onBackPressed()
         }
     }
 

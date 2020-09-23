@@ -61,6 +61,7 @@ class DrinkModificationFragment(val drink: Drink) : Fragment(R.layout.fragment_d
                 if(isNewDrink) Firebase.addDrink(drink)
                 else Firebase.updateDrink(previousVersionDrink, drink.toMap())
                 Firebase.uploadImageToStorage(drink.getImagePath(), currentFile!!)
+                activity!!.onBackPressed()
             }
             else{
                 Toast.makeText(context, "Please, select an image by clicking on this grey field!", Toast.LENGTH_SHORT).show()

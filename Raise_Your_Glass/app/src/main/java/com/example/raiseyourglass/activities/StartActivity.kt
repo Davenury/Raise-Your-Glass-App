@@ -1,18 +1,32 @@
 package com.example.raiseyourglass.activities
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.firebase.Firebase
 import com.example.raiseyourglass.fragments.*
+import com.example.raiseyourglass.other_useful_things.ThemeChanger
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_start.*
 
 class StartActivity : AppCompatActivity() {
+
+    var bottomNavView: BottomNavigationView? = null
+
+    val lambdaSetCurrentFragment = { fragment: Fragment -> setCurrentFragment(fragment) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
+
+        val sharedPref = getSharedPreferences("darkMode", Context.MODE_PRIVATE)
+        val isDarkMode = sharedPref.getBoolean("isDarkMode", false)
+
+        ThemeChanger.changeThemeByBoolean(isDarkMode)
 
         if(!Firebase.isUserLogged()){
             Intent(this, LoginActivity::class.java).apply{
@@ -20,14 +34,12 @@ class StartActivity : AppCompatActivity() {
             }
         }
 
-        val lambdaSetCurrentFragment = { fragment: Fragment -> setCurrentFragment(fragment) }
-
-        val drinkListFragment = DrinksListFragment(lambdaSetCurrentFragment)
-        val myDrinkFragment = MyDrinksFragment(lambdaSetCurrentFragment)
-        val eventsListFragment = EventsListFragment(lambdaSetCurrentFragment)
-        val myEvents = MyEventsFragment(lambdaSetCurrentFragment)
-        val settingsFragment = SettingsFragment(bottomNavigationView) { finish() }
-
+        val drinkListFragment = DrinksListFragment()
+        val myDrinkFragment = MyDrinksFragment()
+        val eventsListFragment = EventsListFragment()
+        val myEvents = MyEventsFragment()
+        val settingsFragment = SettingsFragment()
+        bottomNavView = bottomNavigationView
         setCurrentFragment(drinkListFragment)
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
@@ -53,14 +65,12 @@ class StartActivity : AppCompatActivity() {
         }
     }
 
-    private fun setCurrentFragment(fragment: Fragment) {
+    fun setCurrentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply{
             replace(R.id.flMainStage, fragment)
             commit()
         }
     }
-
-
 
 
 }

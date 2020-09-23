@@ -152,6 +152,7 @@ object EventsCRUD {
                         events.add(event)
                     }
                     adapter.eventsList = events
+                    adapter.constantEventsList = events
                     adapter.notifyDataSetChanged()
                 }
             }
@@ -171,6 +172,7 @@ object EventsCRUD {
                             if(!events.contains(event)) events.add(event)
                         }
                         adapter.eventsList = events
+                        adapter.constantEventsList = events
                         adapter.notifyDataSetChanged()
                     }
                 }
@@ -189,6 +191,7 @@ object EventsCRUD {
                             if(!events.contains(event)) events.add(event)
                         }
                         adapter.eventsList = events
+                        adapter.constantEventsList = events
                         adapter.notifyDataSetChanged()
                     }
                 }

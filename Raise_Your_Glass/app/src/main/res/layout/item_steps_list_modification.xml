@@ -26,6 +26,8 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
+        android:background="@color/edit_text_background"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fabtnDeleteStep"
         app:layout_constraintHorizontal_bias="0.5"
