@@ -6,58 +6,47 @@
     android:layout_height="200dp"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/etMeasurement"
+    <TextView
+        android:id="@+id/tvIngredientListName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Measurement"
-        android:background="@color/edit_text_background"
-        android:padding="8dp"
-        android:inputType="textShortMessage"
-        app:layout_constraintBottom_toTopOf="@+id/etQuantity"
-        app:layout_constraintEnd_toStartOf="@+id/fabtnDeleteIngrediente"
+        android:background="@color/background"
+        android:padding="4dp"
+        android:text="Name"
+        android:textColor="@color/secondary_text_color"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvIngredientListQuantity"
+        app:layout_constraintEnd_toStartOf="@+id/tvIngredientListQuantity"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etIngredientName" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/etIngredientName"
+    <TextView
+        android:id="@+id/tvIngredientListQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:background="@color/edit_text_background"
-        android:padding="8dp"
-        android:hint="Ingredient name"
-        android:inputType="textShortMessage"
-        app:layout_constraintBottom_toTopOf="@+id/etMeasurement"
-        app:layout_constraintEnd_toStartOf="@+id/fabtnDeleteIngrediente"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/background"
+        android:padding="4dp"
+        android:text="Quantity"
+        android:textColor="@color/secondary_text_color"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvIngredientListMeasurement"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvIngredientListName"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etQuantity"
+    <TextView
+        android:id="@+id/tvIngredientListMeasurement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:background="@color/edit_text_background"
-        android:padding="8dp"
-        android:hint="Quantity"
-        android:inputType="number|numberDecimal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fabtnDeleteIngrediente"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etMeasurement" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabtnDeleteIngrediente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/background"
+        android:padding="4dp"
+        android:text="Measurement"
+        android:textColor="@color/secondary_text_color"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvIngredientListQuantity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/etMeasurement"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_delete" />
+        app:layout_constraintStart_toEndOf="@+id/tvIngredientListQuantity" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

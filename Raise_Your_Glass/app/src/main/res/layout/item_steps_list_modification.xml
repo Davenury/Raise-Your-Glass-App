@@ -3,34 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="100dp"
     android:padding="16dp">
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabtnDeleteStep"
+    <TextView
+        android:id="@+id/tvStepListStep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
+        android:background="@color/background"
+        android:padding="4dp"
+        android:text="Step"
+        android:textColor="@color/secondary_text_color"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/etStep"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_delete" />
-
-    <EditText
-        android:id="@+id/etStep"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:background="@color/edit_text_background"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fabtnDeleteStep"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/makeOrderBottomSheetContainer"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:background="@drawable/invite_users_bottom_sheet_background"
+    android:padding="8dp"
+    app:layout_behavior="com.google.android.material.BottomSheet">
+
+    <EditText
+        android:id="@+id/etAddIngredientName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:padding="8dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/etAddIngredientQuantity"
+        app:layout_constraintEnd_toStartOf="@+id/guideline9"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etAddIngredientQuantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Quantity"
+        android:inputType="numberDecimal"
+        android:padding="8dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/etAddIngredientMeasurement"
+        app:layout_constraintEnd_toStartOf="@+id/guideline9"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toBottomOf="@+id/etAddIngredientName" />
+
+    <EditText
+        android:id="@+id/etAddIngredientMeasurement"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Measurement"
+        android:padding="8dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddIngredientFromBottomSheet"
+        app:layout_constraintEnd_toStartOf="@+id/guideline9"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toBottomOf="@+id/etAddIngredientQuantity" />
+
+    <Button
+        android:id="@+id/btnAddIngredientFromBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Ingredient"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.20194647" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

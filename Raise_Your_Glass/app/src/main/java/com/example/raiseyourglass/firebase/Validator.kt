@@ -29,4 +29,9 @@ object Validator {
         if(event.place.isEmpty()) return false
         return true
     }
+
+    fun addIngredientValidator(name: String, quantity: String, measurement: String): Boolean{
+        if(name.isNotEmpty() && quantity.isNotEmpty() && measurement.isNotEmpty()) return true
+        return false
+    }
 }
