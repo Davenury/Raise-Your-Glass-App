@@ -1,9 +1,11 @@
 package com.example.raiseyourglass.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.AdapterView
+import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.R
@@ -30,6 +32,7 @@ class DrinksListFragment : Fragment(R.layout.fragment_drinks_list) {
                 adapter.changeType(type)
             }
         })
+        setSearchBar(adapter)
     }
 
     private fun setRecyclerView(adapter: DrinksListAdapter){
@@ -55,4 +58,16 @@ class DrinksListFragment : Fragment(R.layout.fragment_drinks_list) {
             }
     }
 
+    private fun setSearchBar(adapter: DrinksListAdapter){
+        svSearchDrinkByName.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(drinkName: String?): Boolean {
+                adapter.filterByName(drinkName ?: "")
+                return true
+            }
+        })
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.raiseyourglass.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,9 +29,9 @@ class IngredientListAdapter(
     override fun onBindViewHolder(holder: IngredientListHolder, position: Int) {
         val currentIngredient = ingredientsList[position]
         holder.itemView.apply{
-            tvIngredientListName.text = currentIngredient.name
-            tvIngredientListQuantity.text = "${currentIngredient.quantity}"
-            tvIngredientListMeasurement.text = "${currentIngredient.measurement}"
+            etIngredientListName.setText(currentIngredient.name)
+            etIngredientListQuantity.setText("${currentIngredient.quantity}")
+            etIngredientListMeasurement.setText(currentIngredient.measurement)
         }
     }
 

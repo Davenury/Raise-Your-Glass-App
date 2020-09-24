@@ -1,6 +1,7 @@
 package com.example.raiseyourglass.dataclasses
 
 import com.google.firebase.firestore.DocumentReference
+import java.io.Serializable
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
@@ -25,7 +26,7 @@ data class Event(
     var participants: MutableList<String> = mutableListOf(),
     var invited: MutableList<String> = mutableListOf(),
     val documentID: DocumentReference? = null
-) {
+){
 
     companion object {
         fun apply(

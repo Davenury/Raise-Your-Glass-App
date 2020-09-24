@@ -124,6 +124,7 @@ object DrinkCRUD {
                     }
                     if(adapter is DrinksListAdapter) {
                         adapter.drinksList = drinks
+                        adapter.constantDrinksList = drinks
                         adapter.notifyDataSetChanged()
                     }
                     if(adapter is OrderDrinksAdapter){

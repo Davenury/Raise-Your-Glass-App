@@ -25,6 +25,7 @@ class DrinksListAdapter(
 ) : RecyclerView.Adapter<DrinksListAdapter.DrinksListViewHolder>() {
 
     var drinksList: MutableList<Drink> = mutableListOf()
+    var constantDrinksList: MutableList<Drink> = mutableListOf()
 
     init {
         Firebase.subscribeToDrinkSnapshotListener(this, userFilter)
@@ -89,6 +90,13 @@ class DrinksListAdapter(
             "Favorites" -> Firebase.subscribeToFavoriteDrinkSnapshotListener(this)
             "All" -> Firebase.subscribeToDrinkSnapshotListener(this, userFilter)
         }
+    }
+
+    fun filterByName(name: String){
+        drinksList = constantDrinksList
+        Log.d("Search", name)
+        if(name != "") drinksList = drinksList.filter{ drink -> drink.name.contains(name, true) } as MutableList<Drink>
+        notifyDataSetChanged()
     }
 
 }

@@ -27,7 +27,7 @@ class StepListAdapter(
 
     override fun onBindViewHolder(holder: StepListHolder, position: Int) {
         holder.itemView.apply{
-            tvStepListStep.text = stepsList[position].name
+            etStepListStep.setText(stepsList[position].name)
         }
     }
 

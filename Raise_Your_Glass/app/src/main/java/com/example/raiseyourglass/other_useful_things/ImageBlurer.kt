@@ -13,7 +13,6 @@ object ImageBlurer {
         Glide.with(context)
             .load(imageToBlur)
             .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))
-            .override(view.width, view.height)
             .into(view)
     }
 }

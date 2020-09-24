@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.raiseyourglass.adapters.OrderDrinksAdapter
 import com.example.raiseyourglass.adapters.OwnerOrdersDetailsAdapter
+import com.example.raiseyourglass.adapters.ShoppingListAdapter
 import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.dataclasses.Order
 import com.google.firebase.firestore.CollectionReference
@@ -320,6 +321,55 @@ object OrdersCRUD {
                                 adapter.pairList = pairsList
                                 adapter.notifyDataSetChanged()
                             }
+                        }
+                    }
+                }
+            }
+    }
+
+    fun setAllAlcoholsToList(
+        context: Context,
+        ordersCollection: CollectionReference,
+        eventID: String,
+        adapter: ShoppingListAdapter
+    ){
+        ordersCollection
+            .whereEqualTo(EVENTID, eventID)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                var documentReferences: MutableList<DocumentReference>
+                val drinks = mutableListOf<Drink>()
+                querySnapshot?.let{
+                    CoroutineScope(Dispatchers.IO).launch{
+                        for(document in it){
+                            documentReferences = document.get(DRINKS) as MutableList<DocumentReference>
+                            for (drinkMap in documentReferences) {
+
+                                val drinkDocument = drinkMap.get().await()
+
+                                val drink = Drink.fromMap(
+                                    drinkDocument.data as Map<String, Any>,
+                                    drinkDocument.reference
+                                )
+                                drinks.add(drink)
+                            }
+                        }
+
+                        val ingredientsSet = mutableSetOf<String>()
+                        for(drink in drinks){
+                            for(ingredient in drink.ingredients){
+                                ingredientsSet.add(ingredient.name)
+                            }
+                        }
+                        val ingredientsList = ingredientsSet.toMutableList()
+
+                        withContext(Dispatchers.Main) {
+                            adapter.shoppingList = ingredientsList
+                            adapter.notifyDataSetChanged()
                         }
                     }
                 }

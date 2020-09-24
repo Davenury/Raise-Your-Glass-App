@@ -54,6 +54,7 @@ class DrinkModificationFragment(val drink: Drink) : Fragment(R.layout.fragment_d
     }
 
     private fun setIngredientsRV(){
+        Log.d("Ingredients", drink.ingredients.toString())
         val adapter = IngredientListAdapter(drink.ingredients)
         rvIngredientsList.adapter = adapter
         rvIngredientsList.layoutManager = LinearLayoutManager(view?.context)

@@ -2,13 +2,9 @@ package com.example.raiseyourglass.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.raiseyourglass.R
-import com.example.raiseyourglass.adapters.OrderDrinksAdapter
 import com.example.raiseyourglass.adapters.OwnerOrdersDetailsAdapter
 import com.example.raiseyourglass.dataclasses.Event
 import com.example.raiseyourglass.firebase.Firebase
@@ -35,7 +31,9 @@ class OrdersDetailsFragment(
 
     private fun setShoppingListButton(){
         btnShoppingList.setOnClickListener {
-            Toast.makeText(context, "This functionality isn't made yet ^^", Toast.LENGTH_SHORT).show()
+            val fragment = ShoppingListFragment()
+            fragment.setEvent(event)
+            setCurrentFragment(fragment)
         }
     }
 }

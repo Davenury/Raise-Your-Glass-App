@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
@@ -26,10 +27,15 @@ class DrinkViewFragment(val drink: Drink) : Fragment(R.layout.fragment_drink_vie
     private fun setDrinkDetails(){
         tvName.text = drink.name
         tvDrinkType.text = drink.type
+        setDrinkPhoto()
         Firebase.setDrinkOwner(drink.owner, tvDrinkOwner)
         setIngredients()
         setSteps()
         setFavorite()
+    }
+
+    private fun setDrinkPhoto(){
+        Firebase.setImageToView(drink.getImagePath(), ivDrinkPhoto)
     }
 
     private fun setIngredients(){

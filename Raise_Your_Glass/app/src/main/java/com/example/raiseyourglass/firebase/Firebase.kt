@@ -234,6 +234,10 @@ object Firebase {
         OrdersCRUD.setAllDrinksFromEventToPairs(context, ordersCollectionRef, event.documentID!!.id, adapter)
     }
 
+    fun setAllAlcoholsToList(event: Event, adapter: ShoppingListAdapter){
+        OrdersCRUD.setAllAlcoholsToList(context, ordersCollectionRef, event.documentID!!.id, adapter)
+    }
+
     /**Drinks Images Section*/
     fun setImageToView(filename: String, imageView: ImageView){
         DrinksImages.setImageToView(filename, context, imageView)
