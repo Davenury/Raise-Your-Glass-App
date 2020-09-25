@@ -1,6 +1,6 @@
 # Raise Your Glass App
 
-![made-with-kotlin](https://img.shields.io/badge/Main%20language-Kotlin-orange) ![what-is-is](https://img.shields.io/badge/What%20is%20it-Android%20App-green) ![NSFW](https://img.shields.io/badge/NSFW-+18%20/%20+21:%20Alcohol-informational) ![not-finished](https://img.shields.io/badge/finished-NO-critical)
+![made-with-kotlin](https://img.shields.io/badge/Main%20language-Kotlin-orange) ![what-is-is](https://img.shields.io/badge/What%20is%20it-Android%20App-green) ![NSFW](https://img.shields.io/badge/NSFW-+18%20/%20+21:%20Alcohol-informational) ![finished](https://img.shields.io/badge/finished-First%20version-informational)
 
 ## Table of Content
 * [What is it?](#what-is-it)
