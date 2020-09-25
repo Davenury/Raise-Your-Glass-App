@@ -9,13 +9,10 @@ android {
 
     defaultConfig {
         applicationId "com.example.raiseyourglass"
-        minSdkVersion 29
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
-        renderscriptTargetApi 30
-        renderscriptSupportModeEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
