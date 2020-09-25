@@ -12,6 +12,9 @@ import com.example.raiseyourglass.fragments.*
 import com.example.raiseyourglass.other_useful_things.ThemeChanger
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_start.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class StartActivity : AppCompatActivity() {
 

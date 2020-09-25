@@ -19,7 +19,7 @@ import com.google.firebase.ktx.Firebase
 object Firebase {
 
     private lateinit var context: Context
-    private val auth = FirebaseAuth.getInstance()
+    val auth = FirebaseAuth.getInstance()
 
 
     private val drinksCollectionRef = Firebase.firestore.collection("drinks")
@@ -85,6 +85,10 @@ object Firebase {
         else{
             Toast.makeText(context, "Your email or password isn't valid!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun prepareUserToLife(){
+        RegisterComponent.prepareUserToLife(context, auth, favoritesCollectionRef, userCollectionRef)
     }
 
 

@@ -17,6 +17,8 @@ import kotlinx.coroutines.tasks.await
 
 object RegisterComponent {
 
+    private const val EMAIL = "email"
+
     fun registerUserWithEmailAndPassword(
         email: String,
         password: String,
@@ -37,37 +39,46 @@ object RegisterComponent {
             }
         }
 
-    private fun prepareUserToLife(
+    fun prepareUserToLife(
         context: Context,
         auth: FirebaseAuth,
         favoritesCollectionRef: CollectionReference,
         userCollectionRef: CollectionReference
     ) = CoroutineScope(Dispatchers.IO).launch{
-        auth.currentUser?.let{
-            val favorites = Favorites(
-                it.uid,
-                mutableListOf()
-            )
-            try{
-                favoritesCollectionRef.add(favorites).await()
-                if(it.email != null) {
-                    val user = User(
-                        "",
-                        it.uid,
-                        it.email.toString()
-                    )
-                    userCollectionRef.add(user)
-                }
-                withContext(Dispatchers.Main){
-                    Toast.makeText(context, "Successful registration!", Toast.LENGTH_LONG).show()
-                    Intent(context, StartActivity::class.java).apply{
-                        this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        context.startActivity(this)
+        auth.currentUser?.let {
+            val userQuery = userCollectionRef
+                .whereEqualTo(EMAIL, it.email)
+                .get()
+                .await()
+            if (userQuery.isEmpty) {
+                val favorites = Favorites(
+                    it.uid,
+                    mutableListOf()
+                )
+                try {
+                    favoritesCollectionRef.add(favorites).await()
+                    if (it.email != null) {
+                        val user = User(
+                            it.displayName ?: "",
+                            it.uid,
+                            it.email.toString()
+                        )
+                        userCollectionRef.add(user)
+                    }
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Successful registration!", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
                     }
                 }
-            } catch(e: Exception){
-                withContext(Dispatchers.Main){
-                    Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            }
+            withContext(Dispatchers.Main){
+                Intent(context, StartActivity::class.java).apply {
+                    this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    context.startActivity(this)
                 }
             }
         }
