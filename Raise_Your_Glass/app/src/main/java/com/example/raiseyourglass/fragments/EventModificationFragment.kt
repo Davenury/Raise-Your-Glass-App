@@ -100,9 +100,11 @@ class EventModificationFragment(val event: Event = Event(ownerID = Firebase.getU
         btnAddEvent.setOnClickListener {
             event.place = etEventPlace.text.toString()
             event.isPrivate = cbIsEventPrivate.isChecked
-            if (startVersionOfEvent.place=="") Firebase.addEvent(event)
-            else Firebase.updateEvent(startVersionOfEvent, event.toMap())
-            activity!!.onBackPressed()
+            if (startVersionOfEvent.place=="") if(Firebase.addEvent(event)) activity!!.onBackPressed()
+            else{
+                Firebase.updateEvent(startVersionOfEvent, event.toMap())
+                activity!!.onBackPressed()
+            }
         }
     }
 

@@ -17,6 +17,7 @@ class OrderDrinksAdapter(event: Event)
     var drinksList: MutableList<Drink> = mutableListOf()
     var drinksOrdersAlreadyMade: MutableList<Drink> = mutableListOf()
     var drinksOrders: MutableList<Pair<Drink, Boolean>> = mutableListOf()
+    var constantList: MutableList<Drink> = mutableListOf()
 
     init{
         Firebase.subscribeToDrinkSnapshotListener(this, null)
@@ -49,5 +50,14 @@ class OrderDrinksAdapter(event: Event)
                 }
             }
         }
+    }
+
+    fun filterByName(name: String){
+        drinksList = constantList
+        drinksList = drinksList.filter { drink -> filterFunction(drink, name) } as MutableList<Drink>
+    }
+
+    private fun filterFunction(drink: Drink, name: String) : Boolean{
+        return drink.name.contains(name, true)
     }
 }

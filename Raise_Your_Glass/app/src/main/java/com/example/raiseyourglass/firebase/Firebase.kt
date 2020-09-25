@@ -148,11 +148,13 @@ object Firebase {
 
 
     /**Events CRUD Section*/
-    fun addEvent(event: Event){
-        if(Validator.addEventValidator(event))
+    fun addEvent(event: Event): Boolean{
+        return if(Validator.addEventValidator(event)) {
             EventsCRUD.addEvent(event, context, eventsCollectionRef)
-        else{
+            true
+        } else{
             Toast.makeText(context, "Event wasn't added! Check for Place of Event and its Date (click on calendar icon to choose date)", Toast.LENGTH_LONG).show()
+            false
         }
     }
 
