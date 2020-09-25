@@ -4,12 +4,18 @@
 
 ## Table of Content
 * [What is it?](#what-is-it)
+* [Download](#download)
 * [Technologies](#technologies)
 * [TODO Features](#todo-features)
 * [Database Scheme](#database-scheme)
 
 ### What is it?
 Raise Your Glass is an android app that helps organizing parties.
+
+---
+
+### Download
+You can get this app from https://drive.google.com/file/d/16RQ4IesYbk5vI1lawiUp428TozL4Jjs6/view?usp=sharing (we are poor students and uploading first app to Google Store is a bit too much).
 
 ---
 
