@@ -11,12 +11,17 @@ import com.example.raiseyourglass.adapters.DrinksListAdapter
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.activities.StartActivity
 import com.example.raiseyourglass.listeners.SpinnerListener
+import com.example.raiseyourglass.search_strategies.CompositeDrinkStrategies
+import com.example.raiseyourglass.search_strategies.DrinkNameSearchStrategy
+import com.example.raiseyourglass.search_strategies.DrinkSearchStrategy
 import kotlinx.android.synthetic.main.fragment_drinks_list.*
 
 
 class DrinksListFragment : Fragment(R.layout.fragment_drinks_list) {
 
     private var setCurrentFragment: (fragment: Fragment) -> Unit = { _ -> null }
+    private val compositeDrinkStrategies = CompositeDrinkStrategies(mutableListOf())
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,7 +70,10 @@ class DrinksListFragment : Fragment(R.layout.fragment_drinks_list) {
             }
 
             override fun onQueryTextChange(drinkName: String?): Boolean {
-                adapter.filterByName(drinkName ?: "")
+                compositeDrinkStrategies.removeNameStrategies()
+                val drinkNameSearchStrategy = DrinkNameSearchStrategy(drinkName ?: "")
+                compositeDrinkStrategies.addStrategy(drinkNameSearchStrategy)
+                adapter.filter(compositeDrinkStrategies)
                 return true
             }
         })

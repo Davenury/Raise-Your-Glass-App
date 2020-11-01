@@ -45,8 +45,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
-
         val sharedPref = getSharedPreferences("darkMode", Context.MODE_PRIVATE)
         val isDarkMode = sharedPref.getBoolean("isDarkMode", false)
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.firebase.Firebase
@@ -12,9 +11,6 @@ import com.example.raiseyourglass.fragments.*
 import com.example.raiseyourglass.other_useful_things.ThemeChanger
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_start.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class StartActivity : AppCompatActivity() {
 
@@ -22,10 +18,18 @@ class StartActivity : AppCompatActivity() {
 
     val lambdaSetCurrentFragment = { fragment: Fragment -> setCurrentFragment(fragment) }
 
+    val lambdaSetCurrentFragmentForViewPagers = {fragment: Fragment, placement: Int -> setCurrentFragmentForViewPagers(fragment, placement)}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
+        prepareScreen()
+
+        setBottomNavView()
+    }
+
+    private fun prepareScreen(){
         val sharedPref = getSharedPreferences("darkMode", Context.MODE_PRIVATE)
         val isDarkMode = sharedPref.getBoolean("isDarkMode", false)
 
@@ -36,21 +40,24 @@ class StartActivity : AppCompatActivity() {
                 startActivity(this)
             }
         }
+    }
 
-        val drinkListFragment = DrinksListFragment()
-        val myDrinkFragment = MyDrinksFragment()
-        val eventsListFragment = EventsListFragment()
-        val myEvents = MyEventsFragment()
+    private fun setBottomNavView(){
+        val drinksViewPagerFragment = DrinksViewPagerFragment()
+        val eventsViewPagerFragment = EventsViewPagerFragment()
+        //val drinkListFragment = DrinksListFragment()
+        //val myDrinkFragment = MyDrinksFragment()
+        //val eventsListFragment = EventsListFragment()
+        //val myEvents = MyEventsFragment()
         val settingsFragment = SettingsFragment()
+
         bottomNavView = bottomNavigationView
-        setCurrentFragment(drinkListFragment)
+        setCurrentFragment(drinksViewPagerFragment)
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId) {
-                R.id.miDrink -> setCurrentFragment(drinkListFragment)
-                R.id.miMyDrinks -> setCurrentFragment(myDrinkFragment)
-                R.id.miEvents -> setCurrentFragment(eventsListFragment)
-                R.id.miMyEvents -> setCurrentFragment(myEvents)
+                R.id.miDrink -> setCurrentFragment(drinksViewPagerFragment)
+                R.id.miEvents -> setCurrentFragment(eventsViewPagerFragment)
                 R.id.miSettings -> setCurrentFragment(settingsFragment)
             }
             true
@@ -75,5 +82,10 @@ class StartActivity : AppCompatActivity() {
         }
     }
 
-
+    fun setCurrentFragmentForViewPagers(destination: Fragment, placementID: Int){
+        supportFragmentManager.beginTransaction().apply{
+            replace(placementID, destination)
+            commit()
+        }
+    }
 }

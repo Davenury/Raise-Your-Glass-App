@@ -6,17 +6,9 @@
         android:icon="@drawable/ic_drink"
         android:title="Drinks" />
     <item
-        android:id="@+id/miMyDrinks"
-        android:icon="@drawable/ic_add_drink"
-        android:title="My Drinks" />
-    <item
         android:id="@+id/miEvents"
         android:icon="@drawable/ic_event"
         android:title="Events" />
-    <item
-        android:id="@+id/miMyEvents"
-        android:icon="@drawable/ic_add_event"
-        android:title="My Events" />
     <item
         android:id="@+id/miSettings"
         android:icon="@drawable/ic_settings"

@@ -14,6 +14,8 @@ import com.example.raiseyourglass.dataclasses.Drink
 import com.example.raiseyourglass.firebase.Firebase
 import com.example.raiseyourglass.fragments.DrinkViewFragment
 import com.example.raiseyourglass.fragments.OwnDrinkFragment
+import com.example.raiseyourglass.search_strategies.CompositeDrinkStrategies
+import com.example.raiseyourglass.search_strategies.DrinkSearchStrategy
 import kotlinx.android.synthetic.main.item_drinks_list.view.*
 import kotlinx.android.synthetic.main.item_drinks_list.view.tvDrinkName
 import kotlinx.android.synthetic.main.item_drinks_list.view.tvDrinkType
@@ -92,10 +94,9 @@ class DrinksListAdapter(
         }
     }
 
-    fun filterByName(name: String){
+    fun filter(composite: CompositeDrinkStrategies){
         drinksList = constantDrinksList
-        Log.d("Search", name)
-        if(name != "") drinksList = drinksList.filter{ drink -> drink.name.contains(name, true) } as MutableList<Drink>
+        drinksList = drinksList.filter{ drink -> composite.isFitting(drink) } as MutableList<Drink>
         notifyDataSetChanged()
     }
 
