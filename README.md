@@ -17,7 +17,7 @@ Raise Your Glass is an android app that helps organizing parties.
 ---
 
 ### Download
-You can get this app from https://drive.google.com/file/d/1u4gq2vrwtiXWjSMa84M9oKQDzVRFC5kR/view?usp=sharing (we are poor students and uploading first app to Google Store is a bit too much).
+You can get this app from https://drive.google.com/file/d/1BhoeLbKQzgUxDvlpaBqQRfqLdvsdeLqp/view?usp=sharing (we are poor students and uploading first app to Google Store is a bit too much).
 
 ---
 
