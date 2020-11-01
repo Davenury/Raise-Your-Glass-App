@@ -6,7 +6,9 @@
 * [What is it?](#what-is-it)
 * [Download](#download)
 * [Technologies](#technologies)
+* [Already Implemented Features](#already-implemented-features)
 * [TODO Features](#todo-features)
+* [Features to consider](#features-to-consider)
 * [Database Scheme](#database-scheme)
 
 ### What is it?
@@ -15,7 +17,7 @@ Raise Your Glass is an android app that helps organizing parties.
 ---
 
 ### Download
-You can get this app from https://drive.google.com/file/d/16RQ4IesYbk5vI1lawiUp428TozL4Jjs6/view?usp=sharing (we are poor students and uploading first app to Google Store is a bit too much).
+You can get this app from https://drive.google.com/file/d/1u4gq2vrwtiXWjSMa84M9oKQDzVRFC5kR/view?usp=sharing (we are poor students and uploading first app to Google Store is a bit too much).
 
 ---
 
@@ -26,16 +28,31 @@ You can get this app from https://drive.google.com/file/d/16RQ4IesYbk5vI1lawiUp4
 
 ---
 
-### TODO Features
+### Already Implemented Features
 * Register and Login
 * List of drinks with ingredients and instruction
+* Searching for the drinks
 * Creating events (public and private), where you can invite your friends in simple way
-* Generating shopping list for events
+* Viewing events (yours and public ones)
+* Making orders for event (for invited)
+* Generating shopping list for events (for owner only)
+
+---
+
+### TODO Features
+* Refactorizing the code
+* Making better UI / UX
+* Automatic deletion of events after some time
+
+---
+
+### Features to consider
+* Push notifications about being invited to some event
 
 ---
 
 ### Database Scheme
----
+
 #### Collections:
   * Drinks
   * Favorites
