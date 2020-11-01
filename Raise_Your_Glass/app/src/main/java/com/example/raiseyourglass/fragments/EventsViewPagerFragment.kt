@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.raiseyourglass.R
 import com.example.raiseyourglass.activities.StartActivity
-import kotlinx.android.synthetic.main.fragment_drinks_view_pager.*
+import kotlinx.android.synthetic.main.fragment_events_view_pager.*
 
 class EventsViewPagerFragment : Fragment(R.layout.fragment_events_view_pager) {
 
@@ -23,11 +23,11 @@ class EventsViewPagerFragment : Fragment(R.layout.fragment_events_view_pager) {
         val myEventsFragment = MyEventsFragment()
         val id = R.id.flEventsViewPagerFragment
 
-        btnDrinkFragmentI.setOnClickListener {
+        btnEventFragmentI.setOnClickListener {
             setCurrentFragment(eventListFragment, id)
         }
 
-        btnDrinkFragmentII.setOnClickListener {
+        btnEventFragmentII.setOnClickListener {
             setCurrentFragment(myEventsFragment, id)
         }
     }
