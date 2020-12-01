@@ -42,7 +42,7 @@ You can get this app from https://drive.google.com/file/d/1BhoeLbKQzgUxDvlpaBqQR
 ### TODO Features
 * Refactorizing the code
 * Making better UI / UX
-* Automatic deletion of events after some time
+* Automatic deletion of events after the event date passed
 
 ---
 
